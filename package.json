@@ -1,0 +1,30 @@
+{
+  "name": "ethereum-basic-demo",
+  "version": "1.0.0",
+  "description": "A super simple demo of interaction with Ethereum smart contract using CLI or web UI. Developed using Ethers.js, Hardhat and Vue.js",
+  "main": "index.html",
+  "scripts": {
+    "test": "mocha ./test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bobanm/ethereum-basic-demo.git"
+  },
+  "keywords": [
+    "Ethereum",
+    "Solidity",
+    "Ethers",
+    "Hardhat",
+    "Vue"
+  ],
+  "author": "Boban",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.6",
+    "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "chai": "^4.3.6",
+    "ethereum-waffle": "^3.4.4",
+    "ethers": "^5.6.6",
+    "hardhat": "^2.9.5"
+  }
+}
