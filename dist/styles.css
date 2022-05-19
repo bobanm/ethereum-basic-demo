@@ -1,6 +1,97 @@
-body {
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+:root {
+    --red: hsl(0, 78%, 62%);
+    --cyan: hsl(180, 62%, 55%);
+    --orange: hsl(34, 97%, 64%);
+    --blue: hsl(212, 86%, 64%);
+    --veryDarkBlue: hsl(234, 12%, 34%);
+    --grayishBlue: hsl(229, 6%, 66%);
+    --veryLightGray: hsl(0, 0%, 98%);
+    --grayText: #6a6c71;
+    --weight1: 300;
+    --weight2: 500;
 }
+
+body {
+    font-size: 18px;
+    font-family: 'Roboto Flex', sans-serif;
+    font-weight: var(--weight1);
+    color: var(--grayText);
+    background-color: var(--veryLightGray);
+}
+
+button, input {
+    font-family: 'Roboto Flex', sans-serif;
+    font-size: 18px;
+    font-weight: var(--weight1);
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.box p {
+    color: var(--grayishBlue);
+}
+
+.box {
+    border-radius: 5px;
+    box-shadow: 0px 30px 40px -20px var(--grayishBlue);
+    padding: 30px;
+    margin: 20px;
+    overflow-wrap: break-word;
+}
+
+img {
+    float: right;
+}
+
+@media (max-width: 450px) {
+    .box {
+        height: 200px;
+    }
+}
+
+@media (max-width: 950px) and (min-width: 450px) {
+    .box {
+        text-align: center;
+        height: 180px;
+    }
+}
+
+.cyan {
+    border-top: 3px solid var(--cyan);
+}
+.red {
+    border-top: 3px solid var(--red);
+}
+.blue {
+    border-top: 3px solid var(--blue);
+}
+.orange {
+    border-top: 3px solid var(--orange);
+}
+
+h2 {
+    color: var(--veryDarkBlue);
+    font-weight: var(--weight2);
+    display: inline;
+}
+
+@media (min-width: 950px) {
+    .row-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .box {
+        width: 470px;
+    }
+    .box-bottom {
+        width: 1040px;
+    }
+    .box-middle {
+        height: 220px;
+    }
+}
+
 [v-cloak] {
     display: none;
 }
