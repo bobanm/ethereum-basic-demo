@@ -1,13 +1,4 @@
-const CONTRACT_ADDRESS_LOCALHOST = '0x5FbDB2315678afecb367f032d93F642f64180aa3' // use this one when accessing contract on a local Hardhat network
-const CONTRACT_ADDRESS = '0xacCDe34BC1391aa8D3FEF3Bfaa568dFd9D1DA791'
-const CONTRACT_ABI = [
-    'event PaymentReceived (address indexed from, uint amount)',
-    'event AccountRefunded (address indexed to, uint amount)',
-    'function balances (address) view public returns (uint)',
-    'function paymentsCount () view public returns (uint)',
-    'function refundsCount () view public returns (uint)',
-    'function refund () public',
-]
+import { CONTRACT_ADDRESS, CONTRACT_ABI } from './config.js'
 
 const provider = new ethers.providers.Web3Provider(window.ethereum)
 const signer = provider.getSigner()
