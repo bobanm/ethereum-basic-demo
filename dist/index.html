@@ -48,7 +48,7 @@
                     <div>Balance {{ contractBalanceEth }} ETH</div>
                 </p>
                 <p>
-                    <button @click="refund" :disabled="isRefunding">Request refund</button>
+                    <button @click="refund" :disabled="isRefunding || !Number(accountBalanceInContractWei)">Request refund</button>
                 </p>
             </div>
         </div>
