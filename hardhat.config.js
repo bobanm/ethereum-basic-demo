@@ -1,13 +1,15 @@
-require("@nomiclabs/hardhat-waffle");
-const { accounts, ROPSTEN_ALCHEMY_URL } = require('./.credentials-ropsten')
+require("@nomiclabs/hardhat-waffle")
+
+const { generateInfuraUrl, generateAlchemyUrl } = require('./utils/generate-url')
+const { ALCHEMY_API_KEY, ACCOUNTS, INFURA_API_KEY } = require('./.credentials')
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
-    const accounts = await hre.ethers.getSigners();
+    const accounts = await hre.ethers.getSigners()
 
     for (const account of accounts) {
-        console.log(account.address);
+        console.log(account.address)
     }
 });
 
@@ -22,8 +24,12 @@ module.exports = {
 
     networks: {
         ropsten: {
-            url: ROPSTEN_ALCHEMY_URL,
-            accounts,
-        }
+            url: generateAlchemyUrl('ropsten', ALCHEMY_API_KEY),
+            accounts: ACCOUNTS,
+        },
+        rinkeby: {
+            url: generateInfuraUrl('rinkeby', INFURA_API_KEY),
+            accounts: ACCOUNTS,
+        },
     }
 }
