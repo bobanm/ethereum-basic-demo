@@ -1,5 +1,5 @@
-const CONTRACT_ADDRESS_LOCALHOST = '0x5FbDB2315678afecb367f032d93F642f64180aa3' // use this one when accessing contract on a local Hardhat network
-const CONTRACT_ADDRESS = '0xacCDe34BC1391aa8D3FEF3Bfaa568dFd9D1DA791'
+// const CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3' // this is where your first contract on local Hardhat network will be deployed to
+const CONTRACT_ADDRESS = '0xacCDe34BC1391aa8D3FEF3Bfaa568dFd9D1DA791' // this is the already deployed contract on Ropsten
 const CONTRACT_ABI = [
     'event PaymentReceived (address indexed from, uint amount)',
     'event AccountRefunded (address indexed to, uint amount)',
