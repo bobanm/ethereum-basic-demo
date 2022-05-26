@@ -31,5 +31,13 @@ module.exports = {
             url: generateInfuraUrl('rinkeby', INFURA_API_KEY),
             accounts: ACCOUNTS,
         },
+        optimism_kovan: {
+            url: 'https://kovan.optimism.io',
+            accounts: ACCOUNTS,
+        },
+        arbitrum_rinkeby: {
+            url: 'https://rinkeby.arbitrum.io/rpc',
+            accounts: ACCOUNTS,
+        },
     }
 }
