@@ -1,8 +1,6 @@
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from './config.js'
 
-const provider = new ethers.providers.Web3Provider(window.ethereum)
-const signer = provider.getSigner()
-const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer)
+let provider, signer, contract
 
 const app = {
     data () {
@@ -68,6 +66,7 @@ const app = {
                 this.isSending = false
             }
         },
+
         async refund () {
             this.isRefunding = true
             this.transactionType = 'Refund from contract'
@@ -107,6 +106,10 @@ const app = {
     },
 
     async mounted () {
+        provider = new ethers.providers.Web3Provider(window.ethereum)
+        signer = provider.getSigner()
+        contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer)
+
         const network = await provider.getNetwork()
         this.networkName = network.name
         this.networkId = network.chainId
