@@ -8,6 +8,7 @@ const app = {
     data () {
         return {
             networkName: '',
+            networkId: 0,
             blockNumber: 0,
             accountAddress: '',
             accountBalanceWei: 0,
@@ -23,6 +24,7 @@ const app = {
             errorMessage: '',
         }
     },
+
     methods: {
         async send () {
             this.isSending = true
@@ -103,9 +105,11 @@ const app = {
 
         }
     },
+
     async mounted () {
         const network = await provider.getNetwork()
         this.networkName = network.name
+        this.networkId = network.chainId
         this.blockNumber = await provider.getBlockNumber()
         const accounts = await provider.send('eth_requestAccounts', [])
         this.accountAddress = accounts[0]
@@ -113,6 +117,7 @@ const app = {
         this.contractBalanceWei = await provider.getBalance(CONTRACT_ADDRESS)
         this.accountBalanceInContractWei = await contract.balances(this.accountAddress)
     },
+
     computed: {
         accountBalanceEth () {
             return Number(ethers.utils.formatEther(this.accountBalanceWei)).toFixed(5)

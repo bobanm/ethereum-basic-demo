@@ -31,11 +31,11 @@ module.exports = {
             url: generateInfuraUrl('rinkeby', INFURA_API_KEY),
             accounts: PRIVATE_KEYS,
         },
-        optimism_kovan: {
+        'optimism-kovan': {
             url: 'https://kovan.optimism.io',
             accounts: PRIVATE_KEYS,
         },
-        arbitrum_rinkeby: {
+        'arbitrum-rinkeby': {
             url: 'https://rinkeby.arbitrum.io/rpc',
             accounts: PRIVATE_KEYS,
         },
