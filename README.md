@@ -1,5 +1,4 @@
-Ethereum Basic Demo
-===================
+![refunder](https://user-images.githubusercontent.com/2560022/170886421-d689584b-7fd4-4d94-b384-fd9fa52cbf2b.png)
 
 Am I the only one who finds it absurd when a Hello World app requires you to download over 1 GB of
 dependencies?
@@ -33,6 +32,7 @@ Ethereum JSON-RPC API
 for streamlined blockchain access, deployment, and testing
 
 And that's pretty much all.
+
 
 I didn't want to bloat the codebase by adding other dependencies, not even basic things like
 [Dotenv](https://github.com/motdotla/dotenv). A simple config file with a JavaScript object suits
