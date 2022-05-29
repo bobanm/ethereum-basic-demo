@@ -1,4 +1,34 @@
-// const CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3' // this is where your first contract on local Hardhat network will be deployed to
+/*
+
+    This CLI demo does not deploy a contract, but assumes there is one already deployed.
+    I have already deployed it on Ropsten, and that is the default value for CONTRACT_ADDRESS
+    below. Of course, you can deploy your own version to Ropsten or any other blockchain, and
+    replace value of CONTRACT_ADDRESS by your own.
+
+    To run this demo on Ropsten:
+
+    npx hardhat run ./scripts/refunder-demo.js --network ropsten
+
+    If you want to use it with Hardhat's in-memory blockchain, you will first need to start a local
+    blockchain:
+
+    npx hardhat node
+
+    Then in another terminal deploy the contract to the local blockchain:
+
+    npx hardhat run ./scripts/deploy --network localhost
+
+    If that was the first contract you deployed to that newly created local blockchain, its address
+    will be 0x5FbDB2315678afecb367f032d93F642f64180aa3. Before running the demo on the local
+    blockchain, make sure to uncomment the correct CONTRACT_ADDRESS constant down in the code, or
+    provide an address where you have deployed the contract. After that, you can run the demo on
+    the same local blockchain:
+
+    npx hardhat run ./scripts/refunder-demo.js --network localhost
+
+*/
+
+// const CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3' // this is where your first contract on local Hardhat blockchain will be deployed to
 const CONTRACT_ADDRESS = '0xacCDe34BC1391aa8D3FEF3Bfaa568dFd9D1DA791' // this is the already deployed contract on Ropsten
 const CONTRACT_ABI = [
     'event PaymentReceived (address indexed from, uint amount)',
