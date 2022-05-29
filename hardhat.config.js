@@ -1,7 +1,7 @@
 require("@nomiclabs/hardhat-waffle")
 
 const { generateInfuraUrl, generateAlchemyUrl } = require('./utils/generate-url')
-const { ALCHEMY_API_KEY, ACCOUNTS, INFURA_API_KEY } = require('./.credentials')
+const { ALCHEMY_API_KEY, INFURA_API_KEY, PRIVATE_KEYS } = require('./.credentials')
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -25,19 +25,19 @@ module.exports = {
     networks: {
         ropsten: {
             url: generateAlchemyUrl('ropsten', ALCHEMY_API_KEY),
-            accounts: ACCOUNTS,
+            accounts: PRIVATE_KEYS,
         },
         rinkeby: {
             url: generateInfuraUrl('rinkeby', INFURA_API_KEY),
-            accounts: ACCOUNTS,
+            accounts: PRIVATE_KEYS,
         },
         optimism_kovan: {
             url: 'https://kovan.optimism.io',
-            accounts: ACCOUNTS,
+            accounts: PRIVATE_KEYS,
         },
         arbitrum_rinkeby: {
             url: 'https://rinkeby.arbitrum.io/rpc',
-            accounts: ACCOUNTS,
+            accounts: PRIVATE_KEYS,
         },
     }
 }
