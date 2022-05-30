@@ -1,4 +1,4 @@
-import { CONTRACT_ADDRESS, CONTRACT_ABI } from './config.js'
+import { networkConfig, CONTRACT_ABI } from './config.js'
 
 let provider, signer, contract
 
@@ -11,7 +11,7 @@ const app = {
             accountAddress: '',
             accountBalanceWei: 0,
             amountEth: '',
-            contractAddress: CONTRACT_ADDRESS,
+            contractAddress: '',
             contractBalanceWei: 0,
             accountBalanceInContractWei: 0,
             isSending: false,
@@ -36,7 +36,7 @@ const app = {
 
             try {
                 const transaction = await signer.sendTransaction({
-                    to: CONTRACT_ADDRESS,
+                    to: this.contractAddress,
                     value: amountWei,
                 })
                 this.transactionHash = transaction.hash
@@ -106,7 +106,7 @@ const app = {
         }
     },
 
-    async mounted () {
+    async created () {
 
         if (!window.ethereum) {
             this.isFatalError = true
@@ -117,16 +117,26 @@ const app = {
 
         provider = new ethers.providers.Web3Provider(window.ethereum)
         signer = provider.getSigner()
-        contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer)
 
-        const network = await provider.getNetwork()
-        this.networkName = network.name
-        this.networkId = network.chainId
+        const providerNetwork = await provider.getNetwork()
+        this.networkName = providerNetwork.name
+        this.networkId = providerNetwork.chainId
+
+        if (!networkConfig.get(this.networkId)) {
+            this.isFatalError = true
+            this.errorMessage = `No contract address configured for ${this.networkName} network with ID ${this.networkId}. Please update config file and deploy a new contract instance if needed.`
+
+            return
+        }
+
+        this.contractAddress = networkConfig.get(this.networkId)
+        contract = new ethers.Contract(this.contractAddress, CONTRACT_ABI, signer)
+
         this.blockNumber = await provider.getBlockNumber()
         const accounts = await provider.send('eth_requestAccounts', [])
         this.accountAddress = accounts[0]
         this.accountBalanceWei = await provider.getBalance(this.accountAddress)
-        this.contractBalanceWei = await provider.getBalance(CONTRACT_ADDRESS)
+        this.contractBalanceWei = await provider.getBalance(this.contractAddress)
         this.accountBalanceInContractWei = await contract.balances(this.accountAddress)
     },
 
