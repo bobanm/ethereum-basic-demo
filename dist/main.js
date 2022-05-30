@@ -20,6 +20,7 @@ const app = {
             transactionHash: '',
             transactionBlock: 0,
             errorMessage: '',
+            isFatalError: false,
         }
     },
 
@@ -106,6 +107,14 @@ const app = {
     },
 
     async mounted () {
+
+        if (!window.ethereum) {
+            this.isFatalError = true
+            this.errorMessage = 'MetaMask not detected. Please install MetaMask and refresh the page.'
+
+            return
+        }
+
         provider = new ethers.providers.Web3Provider(window.ethereum)
         signer = provider.getSigner()
         contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer)

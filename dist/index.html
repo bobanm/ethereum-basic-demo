@@ -14,7 +14,7 @@
 
 <body>
     <div id="app" v-cloak>
-        <div class="row-container">
+        <div v-if="!isFatalError" class="row-container">
             <div class="box cyan">
                 <h2>Network</h2>
                 <img src="img/icon-supervisor.svg" alt="">
@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        <div class="row-container">
+        <div v-if="!isFatalError" class="row-container">
             <div class="box red box-middle">
                 <h2>Account</h2>
                 <img src="img/icon-team-builder.svg" alt="">
@@ -55,7 +55,8 @@
 
         <div class="row-container">
             <div class="box orange box-bottom">
-                <h2>Transaction Status</h2>
+                <h2 v-if="!isFatalError">Transaction Status</h2>
+                <h2 v-else>Fatal Error</h2>
                 <img src="img/icon-karma.svg" alt="">
                 <p>
                 <div v-if="transactionHash">
