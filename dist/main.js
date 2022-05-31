@@ -14,6 +14,8 @@ const app = {
             contractAddress: '',
             contractBalanceWei: 0,
             accountBalanceInContractWei: 0,
+            paymentsCount: 0,
+            refundsCount: 0,
             isSending: false,
             isRefunding: false,
             transactionType: '',
@@ -49,6 +51,8 @@ const app = {
             this.contractAddress = networkConfig.get(this.networkId)
             contract = new ethers.Contract(this.contractAddress, CONTRACT_ABI, signer)
             this.contractBalanceWei = await provider.getBalance(this.contractAddress)
+            this.paymentsCount = await contract.paymentsCount()
+            this.refundsCount = await contract.refundsCount()
 
             await this.initAccount()
         },
@@ -86,6 +90,8 @@ const app = {
                 this.accountBalanceWei = await provider.getBalance(this.accountAddress)
                 this.contractBalanceWei = await provider.getBalance(this.contractAddress)
                 this.accountBalanceInContractWei = await contract.balances(this.accountAddress)
+                this.paymentsCount = await contract.paymentsCount()
+                this.refundsCount = await contract.refundsCount()
 
                 this.amountEth = ''
             }
@@ -124,6 +130,8 @@ const app = {
                 this.accountBalanceWei = await provider.getBalance(this.accountAddress)
                 this.contractBalanceWei = await provider.getBalance(this.contractAddress)
                 this.accountBalanceInContractWei = await contract.balances(this.accountAddress)
+                this.paymentsCount = await contract.paymentsCount()
+                this.refundsCount = await contract.refundsCount()
             }
             catch (error) {
                 if (error.code = 4001) {
