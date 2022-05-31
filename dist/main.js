@@ -102,7 +102,6 @@ const app = {
             finally {
                 this.isRefunding = false
             }
-
         }
     },
 
@@ -114,6 +113,8 @@ const app = {
 
             return
         }
+
+        window.ethereum.on('chainChanged', () => { window.location.reload() })
 
         provider = new ethers.providers.Web3Provider(window.ethereum)
         signer = provider.getSigner()
