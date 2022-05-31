@@ -25,6 +25,37 @@ const app = {
     },
 
     methods: {
+        async init () {
+            provider = new ethers.providers.Web3Provider(window.ethereum)
+            signer = provider.getSigner()
+
+            const providerNetwork = await provider.getNetwork()
+            this.networkName = providerNetwork.name
+            this.networkId = providerNetwork.chainId
+
+            this.errorMessage = ''
+            this.isFatalError = false
+            this.transactionHash = ''
+            this.transactionBlock = 0
+
+            if (!networkConfig.get(this.networkId)) {
+                this.isFatalError = true
+                this.errorMessage = `No contract address configured for ${this.networkName} network with ID ${this.networkId}. Please update config file and deploy a new contract instance if needed.`
+
+                return
+            }
+
+            this.contractAddress = networkConfig.get(this.networkId)
+            contract = new ethers.Contract(this.contractAddress, CONTRACT_ABI, signer)
+
+            this.blockNumber = await provider.getBlockNumber()
+            const accounts = await provider.send('eth_requestAccounts', [])
+            this.accountAddress = accounts[0]
+            this.accountBalanceWei = await provider.getBalance(this.accountAddress)
+            this.contractBalanceWei = await provider.getBalance(this.contractAddress)
+            this.accountBalanceInContractWei = await contract.balances(this.accountAddress)
+        },
+
         async send () {
             this.isSending = true
             this.transactionType = 'Transfer to contract'
@@ -114,31 +145,9 @@ const app = {
             return
         }
 
-        window.ethereum.on('chainChanged', () => { window.location.reload() })
+        await this.init()
 
-        provider = new ethers.providers.Web3Provider(window.ethereum)
-        signer = provider.getSigner()
-
-        const providerNetwork = await provider.getNetwork()
-        this.networkName = providerNetwork.name
-        this.networkId = providerNetwork.chainId
-
-        if (!networkConfig.get(this.networkId)) {
-            this.isFatalError = true
-            this.errorMessage = `No contract address configured for ${this.networkName} network with ID ${this.networkId}. Please update config file and deploy a new contract instance if needed.`
-
-            return
-        }
-
-        this.contractAddress = networkConfig.get(this.networkId)
-        contract = new ethers.Contract(this.contractAddress, CONTRACT_ABI, signer)
-
-        this.blockNumber = await provider.getBlockNumber()
-        const accounts = await provider.send('eth_requestAccounts', [])
-        this.accountAddress = accounts[0]
-        this.accountBalanceWei = await provider.getBalance(this.accountAddress)
-        this.contractBalanceWei = await provider.getBalance(this.contractAddress)
-        this.accountBalanceInContractWei = await contract.balances(this.accountAddress)
+        window.ethereum.on('chainChanged', () => { this.init() })
     },
 
     computed: {
