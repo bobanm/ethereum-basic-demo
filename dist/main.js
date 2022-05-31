@@ -54,6 +54,8 @@ const app = {
             this.paymentsCount = await contract.paymentsCount()
             this.refundsCount = await contract.refundsCount()
 
+            provider.on('block', (blockNumber) => this.blockNumber = blockNumber)
+
             await this.initAccount()
         },
 
