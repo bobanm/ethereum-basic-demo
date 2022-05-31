@@ -45,14 +45,18 @@ const app = {
                 return
             }
 
+            this.blockNumber = await provider.getBlockNumber()
             this.contractAddress = networkConfig.get(this.networkId)
             contract = new ethers.Contract(this.contractAddress, CONTRACT_ABI, signer)
+            this.contractBalanceWei = await provider.getBalance(this.contractAddress)
 
-            this.blockNumber = await provider.getBlockNumber()
+            await this.initAccount()
+        },
+
+        async initAccount () {
             const accounts = await provider.send('eth_requestAccounts', [])
             this.accountAddress = accounts[0]
             this.accountBalanceWei = await provider.getBalance(this.accountAddress)
-            this.contractBalanceWei = await provider.getBalance(this.contractAddress)
             this.accountBalanceInContractWei = await contract.balances(this.accountAddress)
         },
 
@@ -148,6 +152,7 @@ const app = {
         await this.init()
 
         window.ethereum.on('chainChanged', () => { this.init() })
+        window.ethereum.on('accountsChanged', () => { this.initAccount() })
     },
 
     computed: {
