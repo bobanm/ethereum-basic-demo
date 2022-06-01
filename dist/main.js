@@ -7,6 +7,7 @@ const app = {
         return {
             networkName: '',
             networkId: 0,
+            networksAvailable: [],
             blockNumber: 0,
             accountAddress: '',
             accountBalanceWei: 0,
@@ -27,6 +28,7 @@ const app = {
     },
 
     methods: {
+        // initializes network-dependent values
         async init () {
             provider = new ethers.providers.Web3Provider(window.ethereum)
             signer = provider.getSigner()
@@ -42,13 +44,15 @@ const app = {
 
             if (!networkConfig.get(this.networkId)) {
                 this.isFatalError = true
-                this.errorMessage = `No contract address configured for ${this.networkName} network with ID ${this.networkId}. Please update config file and deploy a new contract instance if needed.`
+                this.errorMessage = `The contract is currently deployed only on these networks: ${this.networksAvailable.join(', ')}.\n` +
+                    `If you need support for ${this.networkName} [chain ID = ${this.networkId}], please deploy a contract there and update config.\n` +
+                    'Otherwise, select one of supported networks in your wallet.'
 
                 return
             }
 
             this.blockNumber = await provider.getBlockNumber()
-            this.contractAddress = networkConfig.get(this.networkId)
+            this.contractAddress = networkConfig.get(this.networkId).contractAddress
             contract = new ethers.Contract(this.contractAddress, CONTRACT_ABI, signer)
             this.contractBalanceWei = await provider.getBalance(this.contractAddress)
             this.paymentsCount = await contract.paymentsCount()
@@ -59,6 +63,7 @@ const app = {
             await this.initAccount()
         },
 
+        // initializes account-dependent values
         async initAccount () {
             const accounts = await provider.send('eth_requestAccounts', [])
             this.accountAddress = accounts[0]
@@ -157,6 +162,11 @@ const app = {
             this.errorMessage = 'MetaMask not detected. Please install MetaMask and refresh the page.'
 
             return
+        }
+
+        // populate the list of all the networks where the contract has been deployed to
+        for (const network of networkConfig) {
+            this.networksAvailable.push(network[1].networkName)
         }
 
         await this.init()

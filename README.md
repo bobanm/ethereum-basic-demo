@@ -7,6 +7,23 @@ For all of us who love simple, fast and lean software, both when learning and in
 is the place to start from. It is a beginner-friendly demo which strips off all the bloat, so you
 can focus on what matters: How to build a simple, lean and efficient dapp.
 
+Before you continue reading, check out the dapp right now, and try it out with some test ETH.
+
+The contract is deployed on L1 testnets:
+
+- Ropsten
+- Rinkeby
+- Goerli
+- Kovan
+
+And also on L2 testnets:
+
+- Optimism Kovan
+- Arbitrum Rinkeby
+
+Head to https://boban.ninja/refunder/, point your MetaMask to any of those networks, and make some
+transfers and refunds.
+
 
 About this document
 -------------------
@@ -125,7 +142,7 @@ CLI demo and dependencies
 -------------------------
 
 Besides the web frontend, it is also possible to interact with the smart contract using CLI script,
-or even to access it on a a local in-memory mock blockchain. For this, we'll need Hardhat.
+or even to access it on a local in-memory mock blockchain. For this, we'll need Hardhat.
 
 Install all project dependencies:
 
@@ -133,7 +150,7 @@ Install all project dependencies:
 npm install
 ```
 
-Start a local Hardhat network:
+Start a local in-memory blockchain:
 
 ```
 npx hardhat node

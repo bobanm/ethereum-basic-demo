@@ -8,13 +8,13 @@ const CONTRACT_ABI = [
 ]
 
 const networkConfig = new Map([
-    [ 31337,  '0x5FbDB2315678afecb367f032d93F642f64180aa3' ], // hardhat
-    [ 3,      '0xacCDe34BC1391aa8D3FEF3Bfaa568dFd9D1DA791' ], // ropsten
-    [ 4,      '' ], // rinkeby
-    [ 5,      '' ], // goerli
-    [ 42,     '' ], // kovan
-    [ 69,     '' ], // optimism-kovan
-    [ 421611, '' ], // arbitrum-rinkeby
+    [3,      { contractAddress: '0xacCDe34BC1391aa8D3FEF3Bfaa568dFd9D1DA791', networkName: 'ropsten' }],
+    [4,      { contractAddress: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', networkName: 'rinkeby' }],
+    [5,      { contractAddress: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', networkName: 'goerli' }],
+    [42,     { contractAddress: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', networkName: 'kovan' }],
+    [69,     { contractAddress: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', networkName: 'optimism-kovan' }],
+    [421611, { contractAddress: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', networkName: 'arbitrum-rinkeby' }],
+    [31337,  { contractAddress: '0x5FbDB2315678afecb367f032d93F642f64180aa3', networkName: 'hardhat' }],
 ])
 
 export { networkConfig, CONTRACT_ABI }
