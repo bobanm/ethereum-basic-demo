@@ -1,4 +1,4 @@
-import { networkConfig, CONTRACT_ABI } from './config.js'
+import { deploymentConfig, CONTRACT_ABI } from './config.js'
 
 let provider, signer, contract
 
@@ -42,7 +42,7 @@ const app = {
             this.transactionHash = ''
             this.transactionBlock = 0
 
-            if (!networkConfig.get(this.networkId)) {
+            if (!deploymentConfig.get(this.networkId)) {
                 this.isFatalError = true
                 this.errorMessage = `The contract is currently deployed only on these networks: ${this.networksAvailable.join(', ')}.\n` +
                     `If you need support for ${this.networkName} [chain ID = ${this.networkId}], please deploy a contract there and update config.\n` +
@@ -52,7 +52,7 @@ const app = {
             }
 
             this.blockNumber = await provider.getBlockNumber()
-            this.contractAddress = networkConfig.get(this.networkId).contractAddress
+            this.contractAddress = deploymentConfig.get(this.networkId).address
             contract = new ethers.Contract(this.contractAddress, CONTRACT_ABI, signer)
             this.contractBalanceWei = await provider.getBalance(this.contractAddress)
             this.paymentsCount = await contract.paymentsCount()
@@ -165,8 +165,8 @@ const app = {
         }
 
         // populate the list of all the networks where the contract has been deployed to
-        for (const network of networkConfig) {
-            this.networksAvailable.push(network[1].networkName)
+        for (const deploymentConfigEntry of deploymentConfig) {
+            this.networksAvailable.push(deploymentConfigEntry[1].networkName)
         }
 
         await this.init()

@@ -7,14 +7,14 @@ const CONTRACT_ABI = [
     'function refund () public',
 ]
 
-const networkConfig = new Map([
-    [3,      { contractAddress: '0xacCDe34BC1391aa8D3FEF3Bfaa568dFd9D1DA791', networkName: 'ropsten' }],
-    [4,      { contractAddress: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', networkName: 'rinkeby' }],
-    [5,      { contractAddress: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', networkName: 'goerli' }],
-    [42,     { contractAddress: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', networkName: 'kovan' }],
-    [69,     { contractAddress: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', networkName: 'optimism-kovan' }],
-    [421611, { contractAddress: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', networkName: 'arbitrum-rinkeby' }],
-    [31337,  { contractAddress: '0x5FbDB2315678afecb367f032d93F642f64180aa3', networkName: 'hardhat' }],
+const deploymentConfig = new Map([
+    [3,      { address: '0xacCDe34BC1391aa8D3FEF3Bfaa568dFd9D1DA791', blockNumber: 12277906, networkName: 'ropsten' }],
+    [4,      { address: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', blockNumber: 10778311, networkName: 'rinkeby' }],
+    [5,      { address: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', blockNumber: 6987150,  networkName: 'goerli' }],
+    [42,     { address: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', blockNumber: 31946295, networkName: 'kovan' }],
+    [69,     { address: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', blockNumber: 3629298,  networkName: 'optimism-kovan' }],
+    [421611, { address: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', blockNumber: 12240862, networkName: 'arbitrum-rinkeby' }],
+    [31337,  { address: '0x5FbDB2315678afecb367f032d93F642f64180aa3', blockNumber: 0,        networkName: 'hardhat' }],
 ])
 
-export { networkConfig, CONTRACT_ABI }
+export { deploymentConfig, CONTRACT_ABI }
