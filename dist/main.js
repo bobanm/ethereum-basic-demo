@@ -1,6 +1,6 @@
 import { deploymentConfig, CONTRACT_ABI } from './config.js'
 
-let provider, signer, contract
+let provider, signer, contract, contractInterface
 
 const app = {
     data () {
@@ -17,6 +17,10 @@ const app = {
             accountBalanceInContractWei: 0,
             paymentsCount: 0,
             refundsCount: 0,
+            payments: [],
+            refunds: [],
+            isShowPayments: false,
+            isShowRefunds: false,
             isSending: false,
             isRefunding: false,
             transactionType: '',
@@ -69,6 +73,27 @@ const app = {
             this.accountAddress = accounts[0]
             this.accountBalanceWei = await provider.getBalance(this.accountAddress)
             this.accountBalanceInContractWei = await contract.balances(this.accountAddress)
+
+            // fetch all events for this account
+            const contractDeployBlockNumber = deploymentConfig.get(this.networkId).blockNumber
+            this.payments = await this.processLogs('PaymentReceived', this.accountAddress, contractDeployBlockNumber)
+            this.refunds = await this.processLogs('AccountRefunded', this.accountAddress, contractDeployBlockNumber)
+        },
+
+        // util function to process logs and parse log data
+        async processLogs(event, address, fromBlock) {
+
+            const result = []
+            const filter = contract.filters[event](address)
+            filter.fromBlock = fromBlock
+            const logs = await provider.getLogs(filter)
+
+            for (const log of logs) {
+                const parsedLog = contractInterface.parseLog(log)
+                result.push({ blockNumber: log.blockNumber, amount: ethers.utils.formatEther(parsedLog.args.amount) })
+            }
+
+            return result.reverse()
         },
 
         async send () {
@@ -92,6 +117,10 @@ const app = {
                 this.transactionBlock = receipt.blockNumber
                 this.blockNumber = receipt.blockNumber
                 console.log(receipt)
+
+                // update list of payments
+                const parsedLog = contractInterface.parseLog(receipt.logs[0])
+                this.payments.unshift({ blockNumber: receipt.logs[0].blockNumber, amount: ethers.utils.formatEther(parsedLog.args.amount) })
 
                 // update balances after transaction
                 this.accountBalanceWei = await provider.getBalance(this.accountAddress)
@@ -133,6 +162,10 @@ const app = {
                 this.blockNumber = receipt.blockNumber
                 console.log(receipt)
 
+                // update list of refunds
+                const parsedLog = contractInterface.parseLog(receipt.logs[0])
+                this.refunds.unshift({ blockNumber: receipt.logs[0].blockNumber, amount: ethers.utils.formatEther(parsedLog.args.amount) })
+
                 // update balances after transaction
                 this.accountBalanceWei = await provider.getBalance(this.accountAddress)
                 this.contractBalanceWei = await provider.getBalance(this.contractAddress)
@@ -169,6 +202,7 @@ const app = {
             this.networksAvailable.push(deploymentConfigEntry[1].networkName)
         }
 
+        contractInterface = new ethers.utils.Interface(CONTRACT_ABI)
         await this.init()
 
         window.ethereum.on('chainChanged', () => { this.init() })

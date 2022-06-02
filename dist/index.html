@@ -38,6 +38,12 @@
                     <div><input v-model="amountEth" :disabled="isSending" placeholder="ETH amount"></label></div>
                     <button @click="send" :disabled="isSending">Send to contract</button>
                 </p>
+                <p v-if="payments.length">
+                    <button @click="isShowPayments = !isShowPayments">{{ isShowPayments ? 'Hide' : 'Show' }} previous payments from this account</button>
+                    <ul v-if="isShowPayments">
+                        <li v-for="payment in payments">[block {{ payment.blockNumber }}] {{ payment.amount }} ETH</li>
+                    </ul>
+                </p>
             </div>
 
             <div class="box blue box-middle">
@@ -52,13 +58,19 @@
                 <p>
                     <button @click="refund" :disabled="isRefunding || !Number(accountBalanceInContractWei)">Request refund</button>
                 </p>
+                <p v-if="refunds.length">
+                    <button @click="isShowRefunds = !isShowRefunds">{{ isShowRefunds ? 'Hide' : 'Show' }} previous refunds to this account</button>
+                    <ul v-if="isShowRefunds">
+                        <li v-for="refund in refunds">[block {{ refund.blockNumber }}] {{ refund.amount }} ETH</li>
+                    </ul>
+                </p>
             </div>
         </div>
 
         <div class="row-container">
             <div class="box orange box-bottom">
                 <h2 v-if="!isFatalError">Transaction Status</h2>
-                <h2 v-else>Fatal Error</h2>
+                <h2 v-else>Error</h2>
                 <img src="img/icon-karma.svg" alt="">
                 <p>
                 <div v-if="transactionHash">
@@ -74,8 +86,8 @@
     </div>
 </body>
 
-</html>
-
 <script src="https://unpkg.com/vue@3" type="application/javascript"></script>
 <script src="https://cdn.ethers.io/lib/ethers-5.6.8.umd.min.js" type="application/javascript"></script>
 <script src="main.js" type="module"></script>
+
+</html>

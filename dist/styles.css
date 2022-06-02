@@ -45,14 +45,14 @@ img {
 
 @media (max-width: 450px) {
     .box {
-        height: 200px;
+        min-height: 200px;
     }
 }
 
 @media (max-width: 950px) and (min-width: 450px) {
     .box {
         text-align: center;
-        height: 180px;
+        min-height: 180px;
     }
 }
 
@@ -75,11 +75,17 @@ h2 {
     display: inline;
 }
 
+li {
+    list-style-type: none;
+    font-size: 16px;
+    color: var(--grayishBlue);
+}
+
 @media (min-width: 950px) {
     .row-container {
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: top;
     }
     .box {
         width: 470px;
@@ -88,7 +94,7 @@ h2 {
         width: 1040px;
     }
     .box-middle {
-        height: 220px;
+        min-height: 220px;
     }
 }
 
