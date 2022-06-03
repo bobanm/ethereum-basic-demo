@@ -37,7 +37,6 @@ const app = {
         async init () {
 
             provider = new ethers.providers.Web3Provider(window.ethereum)
-            signer = provider.getSigner()
 
             const providerNetwork = await provider.getNetwork()
             this.networkName = providerNetwork.name
@@ -57,14 +56,14 @@ const app = {
 
             this.blockNumber = await provider.getBlockNumber()
             this.contractAddress = deploymentConfig.get(this.networkId).address
-            contract = new ethers.Contract(this.contractAddress, CONTRACT_ABI, signer)
+
+            await this.initAccount()
+
             this.contractBalanceWei = await provider.getBalance(this.contractAddress)
             this.paymentsCount = await contract.paymentsCount()
             this.refundsCount = await contract.refundsCount()
 
             provider.on('block', (blockNumber) => this.blockNumber = blockNumber)
-
-            await this.initAccount()
         },
 
         // initializes account-dependent values
@@ -72,6 +71,9 @@ const app = {
 
             const accounts = await provider.send('eth_requestAccounts', [])
             this.accountAddress = accounts[0]
+            signer = provider.getSigner()
+
+            contract = new ethers.Contract(this.contractAddress, CONTRACT_ABI, signer)
             this.accountBalanceWei = await provider.getBalance(this.accountAddress)
             this.accountBalanceInContractWei = await contract.balances(this.accountAddress)
 
