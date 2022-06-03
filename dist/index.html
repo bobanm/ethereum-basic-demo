@@ -36,7 +36,7 @@
                 </p>
                 <p>
                     <div><input v-model="amountEth" :disabled="isSending" placeholder="ETH amount"></label></div>
-                    <button @click="send" :disabled="isSending">Send to contract</button>
+                    <button @click="send" :disabled="isSending || !amountEth">Send to contract</button>
                 </p>
                 <p v-if="payments.length">
                     <button @click="isShowPayments = !isShowPayments">{{ isShowPayments ? 'Hide' : 'Show' }} previous payments from this account</button>
