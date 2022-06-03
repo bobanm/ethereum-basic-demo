@@ -2,9 +2,11 @@ async function main () {
 
     const contractFactory = await ethers.getContractFactory('Refunder')
     const contract = await contractFactory.deploy()
+    console.log(`Deploying contract ${contract.address}\n` +
+        `Transaction ${contract.deployTransaction.hash}\n`)
     await contract.deployed()
 
-    console.log('Contract deployed to:', contract.address);
+    console.log('Contract successfully deployed');
 }
 
 main()
