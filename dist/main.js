@@ -32,8 +32,10 @@ const app = {
     },
 
     methods: {
+
         // initializes network-dependent values
         async init () {
+
             provider = new ethers.providers.Web3Provider(window.ethereum)
             signer = provider.getSigner()
 
@@ -41,10 +43,8 @@ const app = {
             this.networkName = providerNetwork.name
             this.networkId = providerNetwork.chainId
 
-            this.errorMessage = ''
             this.isFatalError = false
-            this.transactionHash = ''
-            this.transactionBlock = 0
+            this.clearTransactionState()
 
             if (!deploymentConfig.get(this.networkId)) {
                 this.isFatalError = true
@@ -69,6 +69,7 @@ const app = {
 
         // initializes account-dependent values
         async initAccount () {
+
             const accounts = await provider.send('eth_requestAccounts', [])
             this.accountAddress = accounts[0]
             this.accountBalanceWei = await provider.getBalance(this.accountAddress)
@@ -81,7 +82,7 @@ const app = {
         },
 
         // util function to process logs and parse log data
-        async processLogs(event, address, fromBlock) {
+        async processLogs (event, address, fromBlock) {
 
             const result = []
             const filter = contract.filters[event](address)
@@ -97,47 +98,22 @@ const app = {
         },
 
         async send () {
+
             this.isSending = true
             this.transactionType = 'Transfer to contract'
-            this.transactionHash = ''
-            this.transactionBlock = 0
-            this.errorMessage = ''
+            this.clearTransactionState()
 
             const amountWei = ethers.utils.parseEther(this.amountEth)
 
             try {
-                const transaction = await signer.sendTransaction({
-                    to: this.contractAddress,
-                    value: amountWei,
-                })
-                this.transactionHash = transaction.hash
-                console.log(transaction)
-
-                const receipt = await transaction.wait()
-                this.transactionBlock = receipt.blockNumber
-                this.blockNumber = receipt.blockNumber
-                console.log(receipt)
-
-                // update list of payments
-                const parsedLog = contractInterface.parseLog(receipt.logs[0])
-                this.payments.unshift({ blockNumber: receipt.logs[0].blockNumber, amount: ethers.utils.formatEther(parsedLog.args.amount) })
-
-                // update balances after transaction
-                this.accountBalanceWei = await provider.getBalance(this.accountAddress)
-                this.contractBalanceWei = await provider.getBalance(this.contractAddress)
-                this.accountBalanceInContractWei = await contract.balances(this.accountAddress)
-                this.paymentsCount = await contract.paymentsCount()
-                this.refundsCount = await contract.refundsCount()
-
+                const transaction = await signer.sendTransaction({ to: this.contractAddress, value: amountWei })
+                const receipt = await this.processTransaction(transaction)
+                this.payments.unshift(this.getDecodedLogData(receipt)) // add new payment details to the top of payments list
+                await this.updateBalances()
                 this.amountEth = ''
             }
             catch (error) {
-                if (error.code = 4001) {
-                    this.errorMessage = 'Transaction rejected by user'
-                }
-                else {
-                    this.errorMessage = error.message
-                }
+                this.errorMessage = error.message
                 console.log(error)
             }
             finally {
@@ -146,46 +122,61 @@ const app = {
         },
 
         async refund () {
+
             this.isRefunding = true
             this.transactionType = 'Refund from contract'
-            this.transactionHash = ''
-            this.transactionBlock = 0
-            this.errorMessage = ''
+            this.clearTransactionState()
 
             try {
                 const transaction = await contract.refund()
-                this.transactionHash = transaction.hash
-                console.log(transaction)
-
-                const receipt = await transaction.wait()
-                this.transactionBlock = receipt.blockNumber
-                this.blockNumber = receipt.blockNumber
-                console.log(receipt)
-
-                // update list of refunds
-                const parsedLog = contractInterface.parseLog(receipt.logs[0])
-                this.refunds.unshift({ blockNumber: receipt.logs[0].blockNumber, amount: ethers.utils.formatEther(parsedLog.args.amount) })
-
-                // update balances after transaction
-                this.accountBalanceWei = await provider.getBalance(this.accountAddress)
-                this.contractBalanceWei = await provider.getBalance(this.contractAddress)
-                this.accountBalanceInContractWei = await contract.balances(this.accountAddress)
-                this.paymentsCount = await contract.paymentsCount()
-                this.refundsCount = await contract.refundsCount()
+                const receipt = await this.processTransaction(transaction)
+                this.refunds.unshift(this.getDecodedLogData(receipt)) // add new refund details to the top of the refunds list
+                await this.updateBalances()
             }
             catch (error) {
-                if (error.code = 4001) {
-                    this.errorMessage = 'Transaction rejected by user'
-                }
-                else {
-                    this.errorMessage = error.message
-                }
+                this.errorMessage = error.message
                 console.log(error)
             }
             finally {
                 this.isRefunding = false
             }
-        }
+        },
+
+        clearTransactionState () {
+
+            this.transactionHash = ''
+            this.transactionBlock = 0
+            this.errorMessage = ''
+        },
+
+        async processTransaction (transaction) {
+
+            this.transactionHash = transaction.hash
+            console.log(transaction)
+
+            const receipt = await transaction.wait()
+            this.transactionBlock = receipt.blockNumber
+            this.blockNumber = receipt.blockNumber
+            console.log(receipt)
+
+            return receipt
+        },
+
+        async updateBalances () {
+
+            this.accountBalanceWei = await provider.getBalance(this.accountAddress)
+            this.contractBalanceWei = await provider.getBalance(this.contractAddress)
+            this.accountBalanceInContractWei = await contract.balances(this.accountAddress)
+            this.paymentsCount = await contract.paymentsCount()
+            this.refundsCount = await contract.refundsCount()
+        },
+
+        getDecodedLogData (receipt) {
+
+            const parsedLog = contractInterface.parseLog(receipt.logs[0])
+
+            return { blockNumber: receipt.logs[0].blockNumber, amount: ethers.utils.formatEther(parsedLog.args.amount) }
+        },
     },
 
     async created () {
