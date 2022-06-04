@@ -1,4 +1,4 @@
-![refunder](https://user-images.githubusercontent.com/2560022/170886421-d689584b-7fd4-4d94-b384-fd9fa52cbf2b.png)
+![refunder2](https://user-images.githubusercontent.com/2560022/172005566-5e96b922-9ec7-4928-bd19-16fcc10f7fcd.png)
 
 Am I the only one who finds it absurd when a Hello World app requires you to download over 1 GB of
 dependencies?
@@ -133,8 +133,8 @@ update dummy values with your actual keys. The credentials file is configured to
 Git, so you don't commit it by mistake. **Nevertheless, never use private keys which have access to
 funds on the mainnet.**
 
-To send transactions to Ropsten network and update the state of the smart contract, you will need
-some Ropsten ETH, which you can obtain from a Ropsten faucet. That is quite trivial and out of
+To send transactions to a test network and update the state of the smart contract, you will need
+some test ETH, which you can obtain from a test faucet. That is quite trivial and out of
 scope of this document.
 
 
@@ -164,14 +164,14 @@ npx hardhat run ./scripts/deploy.js --network localhost
 
 The first contract will be deployed at address `0x5FbDB2315678afecb367f032d93F642f64180aa3`
 
-If you want to interact with an instance of _Refunder_ on Ropsten blockchain, you can use the
-contract instance I deployed to Ropsten test network. It is available at address
-`0xacCDe34BC1391aa8D3FEF3Bfaa568dFd9D1DA791`.
+If you want to interact with an instance of _Refunder_ on an external test blockchain, you can use the
+contract instances I've already deployed. The full list of available networks and contracts is available
+in `/dist/config.js`
 
 Otherwise, you can deploy your own instance using deploy script with different network argument:
 
 ```
-npx hardhat run ./scripts/deploy.js --network ropsten
+npx hardhat run ./scripts/deploy.js --network <network-name>
 ```
 
 
