@@ -28,6 +28,7 @@ const app = {
             transactionBlock: 0,
             errorMessage: '',
             isFatalError: false,
+            showModal: false,
         }
     },
 

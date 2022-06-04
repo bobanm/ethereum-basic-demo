@@ -14,6 +14,36 @@
 
 <body>
     <div id="app" v-cloak>
+
+        <div class="row-container">
+            <button @click="showModal = true">What is going on here?</button>
+            <div class="modal" v-if="showModal">
+                <div class="modal-content box orange">
+                    <span @click="showModal = false" class="close-button">&times;</span>
+                    <h2>Glad you asked...</h2>
+                    <p>
+                        <div>
+                            A few things are going on under the hood here. This frontend:
+                            <ul>
+                                <li>works with multiple networks and accounts</li>
+                                <li>refreshes network values when network changes</li>
+                                <li>refreshes account values when account changes</li>
+                                <li>disables refunds if the account has no ETH in the contract</li>
+                                <li>listens to block events to continuously update block number</li>
+                                <li>reads past payments and refunds from the log</li>
+                                <li>decodes log data to fetch transaction value</li>
+                            </ul>
+
+                            You can interact with the contract on these networks:
+                            <ul>
+                                <li v-for="network in networksAvailable">{{ network }}</li>
+                            </ul>
+                        </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <div v-if="!isFatalError" class="row-container">
             <div class="box cyan">
                 <h2>Network</h2>
