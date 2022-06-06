@@ -49,7 +49,7 @@ describe('Refunder', function () {
     it('Reverts if an address with 0 balance initiates a refund', async function () {
 
         // await expect(contractSignerUser.refund()).to.be.reverted
-        await expect(contract.refund()).to.be.revertedWith('Address balance is 0')
+        await expect(contract.refund()).to.be.revertedWith('Account balance in contract is 0')
     })
 
     it('Refunds multiple transactions from the same account as 1 transaction with the total amount', async function () {

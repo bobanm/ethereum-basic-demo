@@ -21,8 +21,8 @@ contract Refunder {
     function refund () public {
 
         uint amount = balances[msg.sender];
-        require (amount > 0, 'Address balance is 0');
-        require (address(this).balance >= amount, 'Contract does not contain enough ETH');
+        require(amount > 0, 'Account balance in contract is 0');
+        require(address(this).balance >= amount, 'Contract does not contain enough ETH');
 
         balances[msg.sender] = 0;
         refundsCount += 1;
