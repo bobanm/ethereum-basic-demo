@@ -55,14 +55,26 @@ const app = {
                 return
             }
 
-            this.blockNumber = await provider.getBlockNumber()
             this.contractAddress = deploymentConfig.get(this.networkId).address
-
+            
             await this.initAccount()
-
-            this.contractBalanceWei = await provider.getBalance(this.contractAddress)
-            this.paymentsCount = await contract.paymentsCount()
-            this.refundsCount = await contract.refundsCount()
+            
+            try {
+                [
+                    this.blockNumber,
+                    this.contractBalanceWei,
+                    this.paymentsCount,
+                    this.refundsCount,
+                ] = await Promise.all([
+                    provider.getBlockNumber(),
+                    provider.getBalance(this.contractAddress),
+                    contract.paymentsCount(),
+                    contract.refundsCount(),
+                ])
+            }
+            catch (error) {
+                console.log(error)
+            }
 
             provider.on('block', (blockNumber) => this.blockNumber = blockNumber)
         },
@@ -73,15 +85,25 @@ const app = {
             const accounts = await provider.send('eth_requestAccounts', [])
             this.accountAddress = accounts[0]
             signer = provider.getSigner()
-
             contract = new ethers.Contract(this.contractAddress, CONTRACT_ABI, signer)
-            this.accountBalanceWei = await provider.getBalance(this.accountAddress)
-            this.accountBalanceInContractWei = await contract.balances(this.accountAddress)
-
-            // fetch all events for this account
             const contractDeployBlockNumber = deploymentConfig.get(this.networkId).blockNumber
-            this.payments = await this.processLogs('PaymentReceived', this.accountAddress, contractDeployBlockNumber)
-            this.refunds = await this.processLogs('AccountRefunded', this.accountAddress, contractDeployBlockNumber)
+
+            try {
+                [
+                    this.accountBalanceWei,
+                    this.accountBalanceInContractWei,
+                    this.payments,
+                    this.refunds,
+                ] = await Promise.all([
+                    provider.getBalance(this.accountAddress),
+                    contract.balances(this.accountAddress),
+                    this.processLogs('PaymentReceived', this.accountAddress, contractDeployBlockNumber),
+                    this.processLogs('AccountRefunded', this.accountAddress, contractDeployBlockNumber),
+                ])
+            }
+            catch (error) {
+                console.log(error)
+            }
         },
 
         // util function to process logs and parse log data
@@ -167,11 +189,24 @@ const app = {
 
         async updateBalances () {
 
-            this.accountBalanceWei = await provider.getBalance(this.accountAddress)
-            this.contractBalanceWei = await provider.getBalance(this.contractAddress)
-            this.accountBalanceInContractWei = await contract.balances(this.accountAddress)
-            this.paymentsCount = await contract.paymentsCount()
-            this.refundsCount = await contract.refundsCount()
+            try {
+                [
+                    this.accountBalanceWei,
+                    this.contractBalanceWei,
+                    this.accountBalanceInContractWei,
+                    this.paymentsCount,
+                    this.refundsCount,
+                ] = await Promise.all([
+                    provider.getBalance(this.accountAddress),
+                    provider.getBalance(this.contractAddress),
+                    contract.balances(this.accountAddress),
+                    contract.paymentsCount(),
+                    contract.refundsCount(),
+                ])
+            }
+            catch (error) {
+                console.log(error)
+            }
         },
 
         getDecodedLogData (receipt) {
