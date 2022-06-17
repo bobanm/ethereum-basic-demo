@@ -37,7 +37,7 @@ const amount = 0.01
 
 async function main () {
 
-    const signer = await ethers.getSigner()
+    const signer = ethers.provider.getSigner()
     const contract = await ethers.getContractAt('Refunder', CONTRACT_ADDRESS, signer)
 
     console.log('\nINITIAL STATE')
