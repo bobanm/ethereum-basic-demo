@@ -1,6 +1,6 @@
 import { deploymentConfig, CONTRACT_ABI } from './config.js'
 
-let provider, signer, contract, contractInterface
+let provider, signer, contract
 
 const app = {
     data () {
@@ -115,7 +115,7 @@ const app = {
             const logs = await provider.getLogs(filter)
 
             for (const log of logs) {
-                const parsedLog = contractInterface.parseLog(log)
+                const parsedLog = contract.interface.parseLog(log)
                 result.push({ blockNumber: log.blockNumber, amount: ethers.utils.formatEther(parsedLog.args.amount) })
             }
 
@@ -211,7 +211,7 @@ const app = {
 
         getDecodedLogData (receipt) {
 
-            const parsedLog = contractInterface.parseLog(receipt.logs[0])
+            const parsedLog = contract.interface.parseLog(receipt.logs[0])
 
             return { blockNumber: receipt.logs[0].blockNumber, amount: ethers.utils.formatEther(parsedLog.args.amount) }
         },
@@ -231,7 +231,6 @@ const app = {
             this.networksAvailable.push(deploymentConfigEntry[1].networkName)
         }
 
-        contractInterface = new ethers.utils.Interface(CONTRACT_ABI)
         await this.init()
 
         window.ethereum.on('chainChanged', () => { this.init() })
