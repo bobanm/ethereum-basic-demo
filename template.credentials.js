@@ -14,8 +14,8 @@
 
     These keys are used only when you explicitly request to run CLI demo or tests on an external network, e.g.:
 
-    npx hardhat run ./scripts/refunder-demo.js --network ropsten
-    npx hardhat test ./test/refunder.test.js --network rinkeby
+    pnpm hardhat run ./scripts/refunder-demo.js --network ropsten
+    pnpm hardhat test ./test/refunder.test.js --network rinkeby
 
 */
 

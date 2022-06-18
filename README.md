@@ -56,6 +56,21 @@ I didn't want to bloat the codebase by adding other dependencies, not even basic
 much better, as you will see in [Configuration](#configuration) section.
 
 
+Before we start: Your Node package manager
+------------------------------------------
+
+If you are managing your dependencies using `npm` or `yarn`, this is a great opportunity to try `pnpm`
+and never look back 😀
+
+```
+npm install -g pnpm
+```
+
+`pnpm` is an amazing drop-in replacement for `npm`, which keeps all packages in a store, and creates
+hardlinks in your `node_modules` folder. No longer will each project have their own separate copy of all
+the dependencies, when using symlinks and hardlinks is much more elegant, and much faster.
+
+
 Smart contract: Refunder
 ------------------------
 
@@ -85,7 +100,7 @@ Run the web frontend locally
 ----------------------------
 
 If you just want to access the contract from the frontend app, without deploying your own contracts
-or running tests, you don't even need to run `npm install`.
+or running tests, you don't even need to run `pnpm install`.
 
 The frontend that is in the `/dist` folder works out of the box. For simplicity reasons, I made it
 to be one big Vue component, instead of slicing it into multiple single file components. As a result,
@@ -97,13 +112,13 @@ open it using HTTP protocol is to serve it using a local web server. Installing 
 web server is way more simple than it sounds. Since here we like lean and fast apps, the server of
 choice is `lite-server`.
 
-If you don't have it already, install it globally from NPM:
+If you don't have it already, install it globally using a Node package manager:
 
 ```
-npm install -g lite-server
+pnpm install -g lite-server
 ```
 
-Then from the project folder, start your server, giving it `dist` as its base folder.
+Then from the project folder, start your server, giving it `dist` as its base folder:
 
 ```
 lite-server --baseDir=dist
@@ -147,19 +162,19 @@ or even to access it on a local in-memory mock blockchain. For this, we'll need 
 Install all project dependencies:
 
 ```
-npm install
+pnpm install
 ```
 
 Start a local in-memory blockchain:
 
 ```
-npx hardhat node
+pnpm hardhat node
 ```
 
 Compile the _Refunder_ contract and deploy it to the local Hardhat network:
 
 ```
-npx hardhat run ./scripts/deploy.js --network localhost
+pnpm hardhat run ./scripts/deploy.js --network localhost
 ```
 
 The first contract will be deployed at address `0x5FbDB2315678afecb367f032d93F642f64180aa3`
@@ -171,7 +186,7 @@ in `/dist/config.js`
 Otherwise, you can deploy your own instance using deploy script with different network argument:
 
 ```
-npx hardhat run ./scripts/deploy.js --network <network-name>
+pnpm hardhat run ./scripts/deploy.js --network <network-name>
 ```
 
 
@@ -184,7 +199,7 @@ This app comes with 1 test suite that includes several test cases. The native wa
 Hardhat is:
 
 ```
-npx hardhat test
+pnpm hardhat test
 ```
 
 That will spin a new local in-memory blockchain for you, and use it to run tests on.
@@ -193,13 +208,13 @@ By default, that will run all test files in `/test` folder. If you If you want t
 test file, provide it as an argument:
 
 ```
-npx hardhat test ./test/refunder.test.js
+pnpm hardhat test ./test/refunder.test.js
 ```
 
 If you want to run tests on an external blockchain, add `--network` argument:
 
 ```
-npx hardhat test --network ropsten
+pnpm hardhat test --network ropsten
 ```
 
 

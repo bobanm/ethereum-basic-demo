@@ -7,16 +7,16 @@
 
     To run this demo on Ropsten:
 
-    npx hardhat run ./scripts/refunder-demo.js --network ropsten
+    pnpm hardhat run ./scripts/refunder-demo.js --network ropsten
 
     If you want to use it with Hardhat's in-memory blockchain, you will first need to start a local
     blockchain:
 
-    npx hardhat node
+    pnpm hardhat node
 
     Then in another terminal deploy the contract to the local blockchain:
 
-    npx hardhat run ./scripts/deploy --network localhost
+    pnpm hardhat run ./scripts/deploy --network localhost
 
     If that was the first contract you deployed to that newly created local blockchain, its address
     will be 0x5FbDB2315678afecb367f032d93F642f64180aa3. Before running the demo on the local
@@ -24,7 +24,7 @@
     provide an address where you have deployed the contract. After that, you can run the demo on
     the same local blockchain:
 
-    npx hardhat run ./scripts/refunder-demo.js --network localhost
+    pnpm hardhat run ./scripts/refunder-demo.js --network localhost
 
 */
 
