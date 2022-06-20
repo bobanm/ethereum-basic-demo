@@ -13,7 +13,7 @@
 </head>
 
 <body id="app" v-cloak>
-    <div class="center"><button @click="showModal = true">What is going on here?</button></div>
+    <div v-if="!isFatalError" class="center"><button @click="showModal = true">What is going on here?</button></div>
     <main>
         <div class="modal" v-if="showModal">
             <article class="modal-content orange">
@@ -57,7 +57,7 @@
                 <button @click="send" :disabled="isSending || !Number(amountEth)">Send to contract</button>
             </div>
             <div v-if="payments.length">
-                <button @click="isShowPayments = !isShowPayments">{{ isShowPayments ? 'Hide' : 'Show' }} previous payments from this account</button>
+                <button @click="isShowPayments = !isShowPayments">{{ isShowPayments ? 'Hide' : 'Show' }} payments from this account</button>
                 <ul v-if="isShowPayments">
                     <li v-for="payment in payments">[block {{ payment.blockNumber }}] {{ payment.amount }} ETH</li>
                 </ul>
@@ -73,7 +73,7 @@
             <div class="last">Completed {{ refundsCount }} refunds</div>
             <button @click="refund" :disabled="isRefunding || !Number(accountBalanceInContractWei)">Request refund</button>
             <div v-if="refunds.length">
-                <button @click="isShowRefunds = !isShowRefunds">{{ isShowRefunds ? 'Hide' : 'Show' }} previous refunds to this account</button>
+                <button @click="isShowRefunds = !isShowRefunds">{{ isShowRefunds ? 'Hide' : 'Show' }} refunds to this account</button>
                 <ul v-if="isShowRefunds">
                     <li v-for="refund in refunds">[block {{ refund.blockNumber }}] {{ refund.amount }} ETH</li>
                 </ul>

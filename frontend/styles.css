@@ -23,9 +23,28 @@ body {
 
 main {
     display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+        'network'
+        'account'
+        'contract'
+        'status';
     gap: 2rem;
     max-width: 1060px;
     margin: 0 auto;
+}
+
+#network {
+    grid-area: network;
+}
+#account {
+    grid-area: account;
+}
+#contract {
+    grid-area: contract;
+}
+#status {
+    grid-area: status;
 }
 
 button, input {
@@ -90,19 +109,10 @@ h2 {
 @media (min-width: 800px) {
     main {
         grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
-
-    #network {
-        grid-column: 2 / span 2;
-    }
-    #account {
-        grid-column: 1 / span 2;
-    }
-    #contract {
-        grid-column: 3 / span 2;
-    }
-    #status {
-        grid-column: 1 / span 4;
+        grid-template-areas: 
+            '....... network network  ........'
+            'account account contract contract'
+            'status  status  status   status';
     }
 }
 
