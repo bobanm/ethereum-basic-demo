@@ -24,7 +24,7 @@ body {
 main {
     display: grid;
     gap: 2rem;
-    max-width: 1200px;
+    max-width: 1060px;
     margin: 0 auto;
 }
 
@@ -33,6 +33,11 @@ button, input {
     font-size: inherit;
     font-weight: inherit;
     margin: 0.25em 0;
+    padding: 0.2em 0.4em;
+}
+
+input {
+    margin-right: 0.5em;
 }
 
 article {
@@ -72,6 +77,14 @@ h2 {
 .center {
     text-align: center;
     margin: 1em 0;
+}
+
+.first {
+    margin-top: 1em;
+}
+
+.last {
+    margin-bottom: 1em;
 }
 
 @media (min-width: 800px) {

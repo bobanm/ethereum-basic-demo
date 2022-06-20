@@ -19,90 +19,78 @@
             <article class="modal-content orange">
                 <span @click="showModal = false" class="close-button">&times;</span>
                 <h2>Glad you asked...</h2>
-                <p>
-                    <div>
-                        A few things are going on under the hood here. This frontend:
-                        <ul>
-                            <li>works with multiple networks and accounts</li>
-                            <li>refreshes network values when network changes</li>
-                            <li>refreshes account values when account changes</li>
-                            <li>disables refunds if the account has no ETH in the contract</li>
-                            <li>listens to block events to continuously update block number</li>
-                            <li>reads past payments and refunds from the log</li>
-                            <li>decodes log data to fetch transaction value</li>
-                        </ul>
+                <div class="first">
+                    A few things are going on under the hood here. This frontend:
+                    <ul>
+                        <li>works with multiple networks and accounts</li>
+                        <li>refreshes network values when network changes</li>
+                        <li>refreshes account values when account changes</li>
+                        <li>disables refunds if the account has no ETH in the contract</li>
+                        <li>listens to block events to continuously update block number</li>
+                        <li>reads past payments and refunds from the log</li>
+                        <li>decodes log data to fetch transaction value</li>
+                    </ul>
 
-                        You can interact with the contract on these networks:
-                        <ul>
-                            <li v-for="network in networksAvailable">{{ network }}</li>
-                        </ul>
-                    </div>
-                </p>
+                    You can interact with the contract on these networks:
+                    <ul>
+                        <li v-for="network in networksAvailable">{{ network }}</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
         <article v-if="!isFatalError" id="network" class="box cyan">
-            <h2>Network</h2>
+            <div><h2>Network</h2>
                 <img src="img/icon-supervisor.svg" alt="">
-                <p>
-                    <div>Connected to {{ networkName }}, ID {{ networkId }}</div>
-                    <div>Current block {{ blockNumber }}</div>
-                </p>
+                <div class="first">Connected to {{ networkName }}, ID {{ networkId }}</div>
+                <div>Current block {{ blockNumber }}</div>
         </article>
 
         <article v-if="!isFatalError" id="account" class="box red">
             <h2>Account</h2>
             <img src="img/icon-team-builder.svg" alt="">
-            <p>
-                <div>MetaMask account {{ accountAddress }}</div>
-                <div>Balance {{ accountBalanceEth }} ETH</div>
-                <div>Balance in contract {{ accountBalanceInContractEth }} ETH</div>
-            </p>
-            <p>
-                <div><input v-model="amountEth" :disabled="isSending" placeholder="ETH amount"></label></div>
+            <div class="first">MetaMask account {{ accountAddress }}</div>
+            <div>Balance {{ accountBalanceEth }} ETH</div>
+            <div class="last">Balance in contract {{ accountBalanceInContractEth }} ETH</div>
+            <div>
+                <input v-model="amountEth" :disabled="isSending" placeholder="ETH amount"></label>
                 <button @click="send" :disabled="isSending || !Number(amountEth)">Send to contract</button>
-            </p>
-            <p v-if="payments.length">
+            </div>
+            <div v-if="payments.length">
                 <button @click="isShowPayments = !isShowPayments">{{ isShowPayments ? 'Hide' : 'Show' }} previous payments from this account</button>
                 <ul v-if="isShowPayments">
                     <li v-for="payment in payments">[block {{ payment.blockNumber }}] {{ payment.amount }} ETH</li>
                 </ul>
-            </p>
+            </div>
         </article>
 
         <article v-if="!isFatalError" id="contract" class="box blue">
             <h2>Contract</h2>
             <img src="img/icon-calculator.svg" alt="">
-            <p>
-                <div>Address {{ contractAddress }}</div>
-                <div>Balance {{ contractBalanceEth }} ETH</div>
-                <div>Received {{ paymentsCount }} payments</div>
-                <div>Completed {{ refundsCount }} refunds</div>
-            </p>
-            <p>
-                <button @click="refund" :disabled="isRefunding || !Number(accountBalanceInContractWei)">Request refund</button>
-            </p>
-            <p v-if="refunds.length">
+            <div class="first">Address {{ contractAddress }}</div>
+            <div>Balance {{ contractBalanceEth }} ETH</div>
+            <div>Received {{ paymentsCount }} payments</div>
+            <div class="last">Completed {{ refundsCount }} refunds</div>
+            <button @click="refund" :disabled="isRefunding || !Number(accountBalanceInContractWei)">Request refund</button>
+            <div v-if="refunds.length">
                 <button @click="isShowRefunds = !isShowRefunds">{{ isShowRefunds ? 'Hide' : 'Show' }} previous refunds to this account</button>
                 <ul v-if="isShowRefunds">
                     <li v-for="refund in refunds">[block {{ refund.blockNumber }}] {{ refund.amount }} ETH</li>
                 </ul>
-            </p>
+            </div>
         </article>
 
         <article id="status" class="box orange">
             <h2 v-if="!isFatalError">Transaction Status</h2>
             <h2 v-else>Error</h2>
             <img src="img/icon-karma.svg" alt="">
-            <p>
-            <div v-if="transactionHash">
-                {{ transactionType }} initiated<br />
-                Transaction hash {{ transactionHash }}<br />
-                Awaiting block confirmation...
+            <div v-if="transactionHash" class="first">
+                <div>{{ transactionType }} initiated</div>
+                <div>Transaction hash {{ transactionHash }}</div>
+                <div>Awaiting block confirmation...</div>
             </div>
-            <div v-if="transactionBlock">Confirmed and mined in block {{ transactionBlock }}</span></div>
-            <div v-if="errorMessage">{{ errorMessage }}</div>
-            </p>
+            <div v-if="transactionBlock" class="first">Confirmed and mined in block {{ transactionBlock }}</span></div>
+            <div v-if="errorMessage" class="first">{{ errorMessage }}</div>
         </article>
     </main>
 </body>
