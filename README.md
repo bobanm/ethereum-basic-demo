@@ -91,7 +91,7 @@ What else is included
 Smart contracts on their own are not that useful without an easy way to interact with them. I've
 included 3 different ways to interact with _Refunder_.
 
-- web frontend in `/dist`
+- web frontend in `/frontend`
 - CLI demo in `/scripts/refunder-demo.js`
 - unit test suite in `/test/refunder.test.js`
 
@@ -102,7 +102,7 @@ Run the web frontend locally
 If you just want to access the contract from the frontend app, without deploying your own contracts
 or running tests, you don't even need to run `pnpm install`.
 
-The frontend that is in the `/dist` folder works out of the box. For simplicity reasons, I made it
+The frontend that is in the `/frontend` folder works out of the box. For simplicity reasons, I made it
 to be one big Vue component, instead of slicing it into multiple single file components. As a result,
 you don't need to run tools like webpack build. Just access the files directly and you're good to go.
 
@@ -118,14 +118,14 @@ If you don't have it already, install it globally using a Node package manager:
 pnpm install -g lite-server
 ```
 
-Then from the project folder, start your server, giving it `dist` as its base folder:
+Then from the project folder, start your server, giving it `frontend` as its base folder:
 
 ```
-lite-server --baseDir=dist
+lite-server --baseDir=frontend
 ```
 
 This should start the server and automatically open your browser at address
-`http://localhost:3000/`, where it will show the contents of `/dist/index.html` which is the entry
+`http://localhost:3000/`, where it will show the contents of `/frontend/index.html` which is the entry
 page of our frontend.
 
 
@@ -181,7 +181,7 @@ The first contract will be deployed at address `0x5FbDB2315678afecb367f032d93F64
 
 If you want to interact with an instance of _Refunder_ on an external test blockchain, you can use the
 contract instances I've already deployed. The full list of available networks and contracts is available
-in `/dist/config.js`
+in `/frontend/config.js`
 
 Otherwise, you can deploy your own instance using deploy script with different network argument:
 

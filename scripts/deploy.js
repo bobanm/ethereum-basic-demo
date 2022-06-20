@@ -6,7 +6,7 @@ async function main () {
         `Transaction ${contract.deployTransaction.hash}\n`)
     await contract.deployed()
 
-    console.log('Contract successfully deployed');
+    console.log('Contract successfully deployed')
 }
 
 main()
