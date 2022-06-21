@@ -84,7 +84,7 @@
             <img src="img/icon-karma.svg" alt="">
             <h2 v-if="!isFatalError">Transaction Status</h2>
             <h2 v-else>Error</h2>
-            <div v-if="transactionHash">
+            <div v-if="transactionHash" class="last">
                 <div>{{ transactionType }} initiated</div>
                 <div>Transaction hash {{ transactionHash }}</div>
                 <div>Awaiting block confirmation...</div>

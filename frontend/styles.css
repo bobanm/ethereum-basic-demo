@@ -51,23 +51,30 @@ button, input {
     font-family: inherit;
     font-size: inherit;
     font-weight: inherit;
+    border-radius: 0.3em;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
 }
 
 input {
     margin: 0.25em 0;
     margin-right: 0.5em;
-    padding: 0.3em 0.4em;
+    padding: 0.4em 0.4em;
+    border: 1px solid var(--grayishBlue);
+    outline: 0 none;
+}
+
+input:focus {
+    border-color: var(--red);
+    box-shadow: 0 1px 1px var(--veryLightGray) inset, 0 0 10px var(--red);
 }
 
 button {
-    border-radius: 0.3em;
     color: #FFFFFF;
     cursor: pointer;
     display: inline-block;
     margin: 0.3em 0;
     padding: 0.4em 1em;
-    transition-duration: 0.5s;
-    transition-timing-function: ease-out;
 }
 
 button:disabled {
