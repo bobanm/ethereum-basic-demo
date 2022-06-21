@@ -19,7 +19,7 @@
             <article class="modal-content orange">
                 <span @click="showModal = false" class="close-button">&times;</span>
                 <h2>Glad you asked...</h2>
-                <div class="first">
+                <div>
                     A few things are going on under the hood here. This frontend:
                     <ul>
                         <li>works with multiple networks and accounts</li>
@@ -40,16 +40,16 @@
         </div>
 
         <article v-if="!isFatalError" id="network" class="box cyan">
-            <div><h2>Network</h2>
-                <img src="img/icon-supervisor.svg" alt="">
-                <div class="first">Connected to {{ networkName }}, ID {{ networkId }}</div>
+            <img src="img/icon-supervisor.svg" alt="">
+            <h2>Network</h2>
+                <div>Connected to {{ networkName }}, ID {{ networkId }}</div>
                 <div>Current block {{ blockNumber }}</div>
         </article>
 
         <article v-if="!isFatalError" id="account" class="box red">
-            <h2>Account</h2>
             <img src="img/icon-team-builder.svg" alt="">
-            <div class="first">MetaMask account {{ accountAddress }}</div>
+            <h2>Account</h2>
+            <div>MetaMask account {{ accountAddress }}</div>
             <div>Balance {{ accountBalanceEth }} ETH</div>
             <div class="last">Balance in contract {{ accountBalanceInContractEth }} ETH</div>
             <div>
@@ -65,9 +65,9 @@
         </article>
 
         <article v-if="!isFatalError" id="contract" class="box blue">
-            <h2>Contract</h2>
             <img src="img/icon-calculator.svg" alt="">
-            <div class="first">Address {{ contractAddress }}</div>
+            <h2>Contract</h2>
+            <div>Address {{ contractAddress }}</div>
             <div>Balance {{ contractBalanceEth }} ETH</div>
             <div>Received {{ paymentsCount }} payments</div>
             <div class="last">Completed {{ refundsCount }} refunds</div>
@@ -81,16 +81,16 @@
         </article>
 
         <article id="status" class="box orange">
+            <img src="img/icon-karma.svg" alt="">
             <h2 v-if="!isFatalError">Transaction Status</h2>
             <h2 v-else>Error</h2>
-            <img src="img/icon-karma.svg" alt="">
-            <div v-if="transactionHash" class="first">
+            <div v-if="transactionHash">
                 <div>{{ transactionType }} initiated</div>
                 <div>Transaction hash {{ transactionHash }}</div>
                 <div>Awaiting block confirmation...</div>
             </div>
-            <div v-if="transactionBlock" class="first">Confirmed and mined in block {{ transactionBlock }}</span></div>
-            <div v-if="errorMessage" class="first">{{ errorMessage }}</div>
+            <div v-if="transactionBlock">Confirmed and mined in block {{ transactionBlock }}</span></div>
+            <div v-if="errorMessage">{{ errorMessage }}</div>
         </article>
     </main>
 </body>

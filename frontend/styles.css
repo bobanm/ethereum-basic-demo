@@ -90,16 +90,12 @@ ul {
 h2 {
     color: var(--veryDarkBlue);
     font-weight: var(--weight2);
-    display: inline;
+    margin-top: 0;
 }
 
 .center {
     text-align: center;
     margin: 1em 0;
-}
-
-.first {
-    margin-top: 1em;
 }
 
 .last {
