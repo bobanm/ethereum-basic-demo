@@ -1,3 +1,11 @@
+/*
+
+    Basic CSS styles, to be imported by every project.
+
+*/
+
+@import 'https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300;8..144,500&display=swap';
+
 :root {
     --red: hsl(0, 78%, 62%);
     --cyan: hsl(180, 62%, 55%);
@@ -24,60 +32,74 @@ body {
 main {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-areas: 
-        'network'
-        'account'
-        'contract'
-        'status';
     gap: 2rem;
     max-width: 1060px;
     margin: 0 auto;
-}
-
-#network {
-    grid-area: network;
-}
-#account {
-    grid-area: account;
-}
-#contract {
-    grid-area: contract;
-}
-#status {
-    grid-area: status;
 }
 
 button, input {
     font-family: inherit;
     font-size: inherit;
     font-weight: inherit;
+    margin: 0.3em 0;
     border-radius: 0.3em;
     transition-duration: 0.5s;
     transition-timing-function: ease-out;
 }
 
 input {
-    margin: 0.25em 0;
-    margin-right: 0.5em;
     padding: 0.4em 0.4em;
     border: 1px solid var(--grayishBlue);
     outline: 0 none;
 }
 
 input:focus {
+    border-color: var(--grayishBlue);
+    box-shadow: 0 1px 1px var(--veryLightGray) inset, 0 0 10px var(--grayishBlue);
+}
+input.input-red:focus {
     border-color: var(--red);
     box-shadow: 0 1px 1px var(--veryLightGray) inset, 0 0 10px var(--red);
 }
+input.input-orange:focus {
+    border-color: var(--orange);
+    box-shadow: 0 1px 1px var(--veryLightGray) inset, 0 0 10px var(--orange);
+}
 
 button {
-    color: #FFFFFF;
+    color: white;
     cursor: pointer;
     display: inline-block;
-    margin: 0.3em 0;
     padding: 0.4em 1em;
+    background-color: var(--veryDarkBlue);
+    border: 1px solid var(--veryDarkBlue);
+}
+
+button.btn-red:enabled {
+    background-color: var(--red);
+    border: 1px solid var(--red);
+}
+button.btn-blue:enabled {
+    background-color: var(--blue);
+    border: 1px solid var(--blue);
+}
+button.btn-cyan:enabled {
+    background-color: var(--cyan);
+    border: 1px solid var(--cyan);
+}
+
+button.btn-red:hover:enabled, button.btn-red:active:enabled {
+    color: var(--red);
+}
+button.btn-blue:hover:enabled, button.btn-blue:active:enabled {
+    color: var(--blue);
+}
+button.btn-cyan:hover:enabled, button.btn-cyan:active:enabled {
+    color: var(--cyan);
 }
 
 button:disabled {
+    color: var(--grayText);
     background-color: var(--grayishBlue);
     border: 1px solid var(--grayishBlue);
     cursor: not-allowed;
@@ -85,40 +107,15 @@ button:disabled {
 
 button:hover:enabled, button:active:enabled {
     background-color: initial;
+    color: var(--veryDarkBlue)
 }
 
-.btn-red {
-    background-color: var(--red);
-    border: 1px solid var(--red);
-}
-
-button.btn-red:hover:enabled, button.btn-red:active:enabled {
-    color: var(--red);
-}
-
-.btn-blue {
-    background-color: var(--blue);
-    border: 1px solid var(--blue);
-}
-
-button.btn-blue:hover:enabled, button.btn-blue:active:enabled {
-    color: var(--blue);
-}
-
-.btn-cyan {
-    background-color: var(--cyan);
-    border: 1px solid var(--cyan);
-}
-
-button.btn-cyan:hover:enabled, button.btn-cyan:active:enabled {
-    color: var(--cyan);
-}
-
-article {
+section {
     border-radius: 0.5em;
     box-shadow: 0 1em 2.5em -1em var(--grayishBlue);
     padding: 2em;
     overflow-wrap: break-word;
+    border-top: 3px solid;
 }
 
 img {
@@ -129,17 +126,17 @@ ul {
     list-style-type: square;
 }
 
-.cyan {
-    border-top: 3px solid var(--cyan);
+section.top-cyan {
+    border-top-color: var(--cyan);
 }
-.red {
-    border-top: 3px solid var(--red);
+section.top-red {
+    border-top-color: var(--red);
 }
-.blue {
-    border-top: 3px solid var(--blue);
+section.top-blue {
+    border-top-color: var(--blue);
 }
-.orange {
-    border-top: 3px solid var(--orange);
+section.top-orange {
+    border-top-color: var(--orange);
 }
 
 h2 {
@@ -148,26 +145,7 @@ h2 {
     margin-top: 0;
 }
 
-.center {
-    text-align: center;
-    margin: 1em 0;
-}
-
-.last {
-    margin-bottom: 1em;
-}
-
-@media (min-width: 800px) {
-    main {
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-areas: 
-            '....... network network  ........'
-            'account account contract contract'
-            'status  status  status   status';
-    }
-}
-
-.modal {
+#modal-mask {
     position: fixed;
     left: 0;
     top: 0;
@@ -176,7 +154,7 @@ h2 {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-content {
+#modal-dialog {
     position: absolute;
     top: 10%;
     left: 50%;
@@ -186,7 +164,7 @@ h2 {
     margin: 0;
 }
 
-.close-button {
+#modal-close {
     float: right;
     width: 1.5rem;
     line-height: 1.5rem;
@@ -196,7 +174,7 @@ h2 {
     background-color: lightgray;
 }
 
-.close-button:hover {
+#modal-close:hover {
     background-color: darkgray;
 }
 

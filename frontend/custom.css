@@ -1,0 +1,45 @@
+@import './base.css';
+
+main {
+    grid-template-areas: 
+        'network'
+        'account'
+        'contract'
+        'status';
+}
+
+#network {
+    grid-area: network;
+}
+#account {
+    grid-area: account;
+}
+#contract {
+    grid-area: contract;
+}
+#status {
+    grid-area: status;
+}
+
+input {
+    margin-right: 0.5em;
+}
+
+.center {
+    text-align: center;
+    margin: 1em 0;
+}
+
+.last {
+    margin-bottom: 1em;
+}
+
+@media (min-width: 800px) {
+    main {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-areas: 
+            '....... network network  ........'
+            'account account contract contract'
+            'status  status  status   status';
+    }
+}

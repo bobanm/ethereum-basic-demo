@@ -8,16 +8,15 @@
     <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/ethereum/ethereum-org/master/dist/favicon.ico">
 
     <title>Ethers.js + Hardhat + Vue.js Demo</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300;8..144,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="custom.css">
 </head>
 
 <body id="app" v-cloak>
     <div v-if="!isFatalError" class="center"><button @click="showModal = true" class="btn-cyan">What is going on here?</button></div>
     <main>
-        <div class="modal" v-if="showModal">
-            <article class="modal-content orange">
-                <span @click="showModal = false" class="close-button">&times;</span>
+        <div id="modal-mask" v-if="showModal">
+            <section id="modal-dialog" class="top-orange">
+                <span @click="showModal = false" id="modal-close">&times;</span>
                 <h2>Glad you asked...</h2>
                 <div>
                     A few things are going on under the hood here. This frontend:
@@ -36,24 +35,24 @@
                         <li v-for="network in networksAvailable">{{ network }}</li>
                     </ul>
                 </div>
-            </div>
+            </section>
         </div>
 
-        <article v-if="!isFatalError" id="network" class="box cyan">
+        <section v-if="!isFatalError" id="network" class="top-cyan">
             <img src="img/icon-supervisor.svg" alt="">
             <h2>Network</h2>
                 <div>Connected to {{ networkName }}, ID {{ networkId }}</div>
                 <div>Current block {{ blockNumber }}</div>
-        </article>
+        </section>
 
-        <article v-if="!isFatalError" id="account" class="box red">
+        <section v-if="!isFatalError" id="account" class="top-red">
             <img src="img/icon-team-builder.svg" alt="">
             <h2>Account</h2>
             <div>MetaMask account {{ accountAddress }}</div>
             <div>Balance {{ accountBalanceEth }} ETH</div>
             <div class="last">Balance in contract {{ accountBalanceInContractEth }} ETH</div>
             <div>
-                <input v-model="amountEth" :disabled="isSending" placeholder="ETH amount"></label>
+                <input v-model="amountEth" :disabled="isSending" placeholder="ETH amount" class="input-red"></label>
                 <button @click="send" :disabled="isSending || !Number(amountEth)" class="btn-red">Send to contract</button>
             </div>
             <div v-if="payments.length">
@@ -62,9 +61,9 @@
                     <li v-for="payment in payments">[block {{ payment.blockNumber }}] {{ payment.amount }} ETH</li>
                 </ul>
             </div>
-        </article>
+        </section>
 
-        <article v-if="!isFatalError" id="contract" class="box blue">
+        <section v-if="!isFatalError" id="contract" class="top-blue">
             <img src="img/icon-calculator.svg" alt="">
             <h2>Contract</h2>
             <div>Address {{ contractAddress }}</div>
@@ -78,9 +77,9 @@
                     <li v-for="refund in refunds">[block {{ refund.blockNumber }}] {{ refund.amount }} ETH</li>
                 </ul>
             </div>
-        </article>
+        </section>
 
-        <article id="status" class="box orange">
+        <section id="status" class="top-orange">
             <img src="img/icon-karma.svg" alt="">
             <h2 v-if="!isFatalError">Transaction Status</h2>
             <h2 v-else>Error</h2>
@@ -91,7 +90,7 @@
             </div>
             <div v-if="transactionBlock">Confirmed and mined in block {{ transactionBlock }}</span></div>
             <div v-if="errorMessage">{{ errorMessage }}</div>
-        </article>
+        </section>
     </main>
 </body>
 
