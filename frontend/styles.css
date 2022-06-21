@@ -51,12 +51,60 @@ button, input {
     font-family: inherit;
     font-size: inherit;
     font-weight: inherit;
-    margin: 0.25em 0;
-    padding: 0.2em 0.4em;
 }
 
 input {
+    margin: 0.25em 0;
     margin-right: 0.5em;
+    padding: 0.3em 0.4em;
+}
+
+button {
+    border-radius: 0.3em;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0.3em 0;
+    padding: 0.4em 1em;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
+}
+
+button:disabled {
+    background-color: var(--grayishBlue);
+    border: 1px solid var(--grayishBlue);
+    cursor: not-allowed;
+}
+
+button:hover:enabled, button:active:enabled {
+    background-color: initial;
+}
+
+.btn-red {
+    background-color: var(--red);
+    border: 1px solid var(--red);
+}
+
+button.btn-red:hover:enabled, button.btn-red:active:enabled {
+    color: var(--red);
+}
+
+.btn-blue {
+    background-color: var(--blue);
+    border: 1px solid var(--blue);
+}
+
+button.btn-blue:hover:enabled, button.btn-blue:active:enabled {
+    color: var(--blue);
+}
+
+.btn-cyan {
+    background-color: var(--cyan);
+    border: 1px solid var(--cyan);
+}
+
+button.btn-cyan:hover:enabled, button.btn-cyan:active:enabled {
+    color: var(--cyan);
 }
 
 article {
