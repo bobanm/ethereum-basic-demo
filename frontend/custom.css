@@ -34,7 +34,7 @@ input {
     margin-bottom: 1em;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 50rem) {
     main {
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas: 

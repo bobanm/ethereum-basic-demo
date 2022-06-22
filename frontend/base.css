@@ -26,14 +26,13 @@ body {
     color: var(--grayText);
     background-color: var(--veryLightGray);
     margin: 1em;
-    min-width: 500px;
 }
 
 main {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
-    max-width: 1060px;
+    max-width: 70rem;
     margin: 0 auto;
 }
 
@@ -158,10 +157,9 @@ h2 {
     position: absolute;
     top: 10%;
     left: 50%;
-    width: min(550px, 75%);
+    width: min(34rem, 75%);
     background-color: var(--veryLightGray);
     transform: translate(-50%, 0%);
-    margin: 0;
 }
 
 #modal-close {
