@@ -1,4 +1,4 @@
-![refunder2](https://user-images.githubusercontent.com/2560022/172005566-5e96b922-9ec7-4928-bd19-16fcc10f7fcd.png)
+![refunder3](https://user-images.githubusercontent.com/2560022/175058697-c7e13480-1a38-4761-af0e-f5737ae7303f.png)
 
 Am I the only one who finds it absurd when a Hello World app requires you to download over 1 GB of
 dependencies?
@@ -7,7 +7,7 @@ For all of us who love simple, fast and lean software, both when learning and in
 is the place to start from. It is a beginner-friendly demo which strips off all the bloat, so you
 can focus on what matters: How to build a simple, lean and efficient dapp.
 
-Before you continue reading, check out the dapp right now, and try it out with some test ETH.
+**Before you continue reading, check out the dapp right now, and try it out with some test ETH.**
 
 The contract is deployed on L1 testnets:
 
