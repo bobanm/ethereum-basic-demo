@@ -111,12 +111,10 @@ const app = {
 
             const result = []
             const filter = contract.filters[event](address)
-            filter.fromBlock = fromBlock
-            const logs = await provider.getLogs(filter)
+            const logs = await contract.queryFilter(filter, fromBlock)
 
             for (const log of logs) {
-                const parsedLog = contract.interface.parseLog(log)
-                result.push({ blockNumber: log.blockNumber, amount: ethers.utils.formatEther(parsedLog.args.amount) })
+                result.push({ blockNumber: log.blockNumber, amount: ethers.utils.formatEther(log.args.amount) })
             }
 
             return result.reverse()
