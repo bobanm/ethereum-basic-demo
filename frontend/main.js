@@ -1,4 +1,4 @@
-import { deploymentConfig, CONTRACT_ABI } from './config.js'
+import { deploymentConfig, CONTRACT_ABI, DEFAULT_NETWORK } from './config.js'
 
 let provider, signer, contract
 
@@ -27,7 +27,7 @@ const app = {
             transactionHash: '',
             transactionBlock: 0,
             errorMessage: '',
-            isFatalError: false,
+            isReadOnly: false,
             showModal: false,
         }
     },
@@ -37,17 +37,25 @@ const app = {
         // initializes network-dependent values
         async init () {
 
-            provider = new ethers.providers.Web3Provider(window.ethereum)
+            this.clearTransactionState()
 
+            if (window.ethereum) {
+                provider = new ethers.providers.Web3Provider(window.ethereum)
+                this.isReadOnly = false
+            }
+            else {
+                provider = new ethers.providers.getDefaultProvider(DEFAULT_NETWORK)
+                this.isReadOnly = true
+                this.errorMessage = 'MetaMask not detected. The app is running in read-only mode. Please install MetaMask and refresh the page.'
+            }
+    
             const providerNetwork = await provider.getNetwork()
             this.networkName = providerNetwork.name
             this.networkId = providerNetwork.chainId
 
-            this.isFatalError = false
-            this.clearTransactionState()
-
             if (!deploymentConfig.get(this.networkId)) {
-                this.isFatalError = true
+                this.clearAppState()
+                this.isReadOnly = true
                 this.errorMessage = `The contract is currently deployed only on these networks: ${this.networksAvailable.join(', ')}.\n` +
                     `If you need support for ${this.networkName} [chain ID = ${this.networkId}], please deploy a contract there and update config.\n` +
                     'Otherwise, select one of supported networks in your wallet.'
@@ -57,7 +65,12 @@ const app = {
 
             this.contractAddress = deploymentConfig.get(this.networkId).address
             
-            await this.initAccount()
+            if (this.isReadOnly) {
+                contract = new ethers.Contract(this.contractAddress, CONTRACT_ABI, provider)
+            }
+            else {
+                await this.initAccount()
+            }
             
             try {
                 [
@@ -172,6 +185,25 @@ const app = {
             this.errorMessage = ''
         },
 
+        clearAppState () {
+
+            this.blockNumber = 0
+            this.accountAddress = ''
+            this.accountBalanceWei = 0
+            this.amountEth = ''
+            this.contractAddress = ''
+            this.contractBalanceWei = 0
+            this.accountBalanceInContractWei = 0
+            this.paymentsCount = 0
+            this.refundsCount = 0
+            this.payments = []
+            this.refunds = []
+            this.isShowPayments = false
+            this.isShowRefunds = false
+
+            this.clearTransactionState()
+        },
+
         async processTransaction (transaction) {
 
             this.transactionHash = transaction.hash
@@ -217,13 +249,6 @@ const app = {
 
     async created () {
 
-        if (!window.ethereum) {
-            this.isFatalError = true
-            this.errorMessage = 'MetaMask not detected. Please install MetaMask and refresh the page.'
-
-            return
-        }
-
         // populate the list of all the networks where the contract has been deployed to
         for (const deploymentConfigEntry of deploymentConfig) {
             this.networksAvailable.push(deploymentConfigEntry[1].networkName)
@@ -231,8 +256,10 @@ const app = {
 
         await this.init()
 
-        window.ethereum.on('chainChanged', () => { this.init() })
-        window.ethereum.on('accountsChanged', () => { this.initAccount() })
+        if (!this.isReadOnly) {
+            window.ethereum.on('chainChanged', () => { this.init() })
+            window.ethereum.on('accountsChanged', () => { this.initAccount() })
+        }
     },
 
     computed: {

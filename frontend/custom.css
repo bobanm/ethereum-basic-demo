@@ -43,3 +43,7 @@ input {
             'status  status  status   status';
     }
 }
+
+[v-cloak] {
+    display: none;
+}

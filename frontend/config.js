@@ -17,4 +17,6 @@ const deploymentConfig = new Map([
     [31337,  { address: '0x5FbDB2315678afecb367f032d93F642f64180aa3', blockNumber: 0,        networkName: 'hardhat' }],
 ])
 
-export { deploymentConfig, CONTRACT_ABI }
+const DEFAULT_NETWORK = 'ropsten'
+
+export { deploymentConfig, CONTRACT_ABI, DEFAULT_NETWORK }

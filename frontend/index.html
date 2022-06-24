@@ -12,7 +12,7 @@
 </head>
 
 <body id="app" v-cloak>
-    <div v-if="!isFatalError" class="center"><button @click="showModal = true" class="btn-cyan">What is going on here?</button></div>
+    <div class="center"><button @click="showModal = true" class="btn-cyan">What is going on here?</button></div>
     <main>
         <div id="modal-mask" v-if="showModal">
             <section id="modal-dialog" class="top-orange">
@@ -38,22 +38,22 @@
             </section>
         </div>
 
-        <section v-if="!isFatalError" id="network" class="top-cyan">
+        <section id="network" class="top-cyan">
             <img src="img/icon-supervisor.svg" alt="">
             <h2>Network</h2>
                 <div>Connected to {{ networkName }}, ID {{ networkId }}</div>
                 <div>Current block {{ blockNumber }}</div>
         </section>
 
-        <section v-if="!isFatalError" id="account" class="top-red">
+        <section id="account" class="top-red">
             <img src="img/icon-team-builder.svg" alt="">
             <h2>Account</h2>
             <div>MetaMask account {{ accountAddress }}</div>
             <div>Balance {{ accountBalanceEth }} ETH</div>
             <div class="last">Balance in contract {{ accountBalanceInContractEth }} ETH</div>
             <div>
-                <input v-model="amountEth" :disabled="isSending" placeholder="ETH amount" class="input-red"></label>
-                <button @click="send" :disabled="isSending || !Number(amountEth)" class="btn-red">Send to contract</button>
+                <input v-model="amountEth" :disabled="isReadOnly || isSending" placeholder="ETH amount" class="input-red"></label>
+                <button @click="send" :disabled="isReadOnly || isSending || !Number(amountEth)" class="btn-red">Send to contract</button>
             </div>
             <div v-if="payments.length">
                 <button @click="isShowPayments = !isShowPayments" class="btn-red">{{ isShowPayments ? 'Hide' : 'Show' }} payments from this account</button>
@@ -63,14 +63,14 @@
             </div>
         </section>
 
-        <section v-if="!isFatalError" id="contract" class="top-blue">
+        <section id="contract" class="top-blue">
             <img src="img/icon-calculator.svg" alt="">
             <h2>Contract</h2>
             <div>Address {{ contractAddress }}</div>
             <div>Balance {{ contractBalanceEth }} ETH</div>
             <div>Received {{ paymentsCount }} payments</div>
             <div class="last">Completed {{ refundsCount }} refunds</div>
-            <button @click="refund" :disabled="isRefunding || !Number(accountBalanceInContractWei)" class="btn-blue">Request refund</button>
+            <button @click="refund" :disabled="isReadOnly || isRefunding || !Number(accountBalanceInContractWei)" class="btn-blue">Request refund</button>
             <div v-if="refunds.length">
                 <button @click="isShowRefunds = !isShowRefunds"  class="btn-blue">{{ isShowRefunds ? 'Hide' : 'Show' }} refunds to this account</button>
                 <ul v-if="isShowRefunds">
@@ -81,7 +81,7 @@
 
         <section id="status" class="top-orange">
             <img src="img/icon-karma.svg" alt="">
-            <h2 v-if="!isFatalError">Transaction Status</h2>
+            <h2 v-if="!errorMessage">Transaction Status</h2>
             <h2 v-else>Error</h2>
             <div v-if="transactionHash" class="last">
                 <div>{{ transactionType }} initiated</div>

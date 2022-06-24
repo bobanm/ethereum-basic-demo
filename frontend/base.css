@@ -97,11 +97,14 @@ button.btn-cyan:hover:enabled, button.btn-cyan:active:enabled {
     color: var(--cyan);
 }
 
-button:disabled {
+button:disabled, input:disabled {
     color: var(--grayText);
-    background-color: var(--grayishBlue);
     border: 1px solid var(--grayishBlue);
     cursor: not-allowed;
+}
+
+button:disabled {
+    background-color: var(--grayishBlue);
 }
 
 button:hover:enabled, button:active:enabled {
@@ -174,8 +177,4 @@ h2 {
 
 #modal-close:hover {
     background-color: darkgray;
-}
-
-[v-cloak] {
-    display: none;
 }
