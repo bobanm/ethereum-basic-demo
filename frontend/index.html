@@ -7,13 +7,13 @@
 
     <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/ethereum/ethereum-org/master/dist/favicon.ico">
 
-    <title>Ethers.js + Hardhat + Vue.js Demo</title>
-    <link rel="stylesheet" href="custom.css">
+    <title>Send and Refund</title>
+    <link rel="stylesheet" href="./custom.css">
 </head>
 
 <body id="app" v-cloak>
-    <div class="center"><button @click="showModal = true" class="btn-cyan">What is going on here?</button></div>
     <main>
+        <div id="about" class="center"><button @click="showModal = true" class="btn-cyan">What is going on here?</button></div>
         <div id="modal-mask" v-if="showModal">
             <section id="modal-dialog" class="top-orange">
                 <span @click="showModal = false" id="modal-close">&times;</span>
@@ -39,14 +39,14 @@
         </div>
 
         <section id="network" class="top-cyan">
-            <img src="img/icon-supervisor.svg" alt="">
+            <img src="./img/icon-supervisor.svg" class="right zoom" alt="">
             <h2>Network</h2>
                 <div>Connected to {{ networkName }}, ID {{ networkId }}</div>
                 <div>Current block {{ blockNumber }}</div>
         </section>
 
         <section id="account" class="top-red">
-            <img src="img/icon-team-builder.svg" alt="">
+            <img src="./img/icon-team-builder.svg" class="right zoom" alt="">
             <h2>Account</h2>
             <div>MetaMask account {{ accountAddress }}</div>
             <div>Balance {{ accountBalanceEth }} ETH</div>
@@ -64,7 +64,7 @@
         </section>
 
         <section id="contract" class="top-blue">
-            <img src="img/icon-calculator.svg" alt="">
+            <img src="./img/icon-calculator.svg" class="right zoom" alt="">
             <h2>Contract</h2>
             <div>Address {{ contractAddress }}</div>
             <div>Balance {{ contractBalanceEth }} ETH</div>
@@ -80,7 +80,7 @@
         </section>
 
         <section id="status" class="top-orange">
-            <img src="img/icon-karma.svg" alt="">
+            <img src="./img/icon-karma.svg" class="right zoom" alt="">
             <h2 v-if="!errorMessage">Transaction Status</h2>
             <h2 v-else>Error</h2>
             <div v-if="transactionHash" class="last">
@@ -96,6 +96,6 @@
 
 <script src="https://unpkg.com/vue@3" type="application/javascript"></script>
 <script src="https://cdn.ethers.io/lib/ethers-5.6.9.umd.min.js" type="application/javascript"></script>
-<script src="main.js" type="module"></script>
+<script src="./main.js" type="module"></script>
 
 </html>

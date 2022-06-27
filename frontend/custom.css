@@ -1,4 +1,4 @@
-@import './base.css';
+@import './cardinal.css';
 
 main {
     grid-template-areas: 
@@ -27,7 +27,6 @@ input {
 
 .center {
     text-align: center;
-    margin: 1em 0;
 }
 
 .last {
