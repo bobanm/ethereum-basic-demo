@@ -1,4 +1,4 @@
-@import './cardinal.css';
+@import 'https://unpkg.com/@bobanm/cardinal@latest';
 
 main {
     grid-template-areas: 
