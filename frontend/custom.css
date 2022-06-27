@@ -2,12 +2,16 @@
 
 main {
     grid-template-areas: 
+        'about'
         'network'
         'account'
         'contract'
         'status';
 }
 
+#about {
+    grid-area: about;
+}
 #network {
     grid-area: network;
 }
@@ -37,6 +41,7 @@ input {
     main {
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas: 
+            'about   about   about    about'
             '....... network network  ........'
             'account account contract contract'
             'status  status  status   status';
