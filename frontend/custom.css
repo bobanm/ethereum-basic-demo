@@ -2,11 +2,11 @@
 
 main {
     grid-template-areas: 
-        'about'
-        'network'
-        'account'
-        'contract'
-        'status';
+        'about    about'
+        'network  network'
+        'account  account'
+        'contract contract'
+        'status   status';
 }
 
 #about {
@@ -39,6 +39,7 @@ input {
 
 @media (min-width: 50rem) {
     main {
+        margin-top: 2em;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas: 
             'about   about   about    about'
