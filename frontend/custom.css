@@ -4,7 +4,7 @@ main {
     grid-template-areas: 
         'about    about'
         'network  network'
-        'account  account'
+        'wallet  wallet'
         'contract contract'
         'status   status';
 }
@@ -15,8 +15,8 @@ main {
 #network {
     grid-area: network;
 }
-#account {
-    grid-area: account;
+#wallet {
+    grid-area: wallet;
 }
 #contract {
     grid-area: contract;
@@ -37,14 +37,15 @@ input {
     margin-bottom: 1em;
 }
 
-@media (min-width: 50rem) {
+@media (min-width: 50em) {
     main {
         margin-top: 2em;
+        gap: 1em;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas: 
             'about   about   about    about'
             '....... network network  ........'
-            'account account contract contract'
+            'wallet wallet contract contract'
             'status  status  status   status';
     }
 }
