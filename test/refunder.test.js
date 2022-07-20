@@ -4,7 +4,7 @@ const { ethers } = require('hardhat')
 describe('Refunder', function () {
 
     let contract, contractFactory, signerUser, signerOwner
-    const amount = ethers.utils.parseEther('1')
+    const amount = ethers.utils.parseEther('1').toBigInt()
 
     before(async function () {
         [signerUser, signerOwner] = await ethers.getSigners()
@@ -19,7 +19,7 @@ describe('Refunder', function () {
     it('Increases contract balance and payments counter after a payment', async function () {
 
         const paymentsCount = await contract.paymentsCount()
-        await expect(await signerUser.sendTransaction({ to: contract.address, value: amount })).to.changeEtherBalance(contract, amount)
+        await expect(await signerUser.sendTransaction({ to: contract.address, value: amount })).to.changeEtherBalances([contract, signerUser], [amount, -amount])
         expect(await contract.paymentsCount()).to.equal(paymentsCount + 1)
     })
 
@@ -34,7 +34,7 @@ describe('Refunder', function () {
         const contractUser = contract.connect(signerUser) // new contract reference which allows signerUser to modify the state
 
         await signerUser.sendTransaction({ to: contract.address, value: amount })
-        await expect(await contractUser.refund()).to.changeEtherBalance(signerUser, amount)
+        await expect(await contractUser.refund()).to.changeEtherBalances([signerUser, contractUser], [amount, -amount])
 
         const refundsCountAfterRefund = await contract.refundsCount()
         expect(refundsCountAfterRefund).to.equal(refundsCountBeforeRefund + 1)
@@ -63,12 +63,12 @@ describe('Refunder', function () {
             await signerUser.sendTransaction({ to: contract.address, value: ethers.utils.parseEther(String(i)) })
         }
 
-        const totalAmountFromAccount = await contract.balances(signerUser.address)
-        const contractBalance = await ethers.provider.getBalance(contract.address)
+        const totalAmountFromAccount = (await contract.balances(signerUser.address)).toBigInt()
+        const contractBalance = (await ethers.provider.getBalance(contract.address)).toBigInt()
 
         expect(totalAmountTransferred).to.equal(Number(ethers.utils.formatEther(totalAmountFromAccount)))
         expect(contractBalance).to.equal(totalAmountFromAccount)
         expect(await contract.paymentsCount()).to.equal(PAYMENTS_COUNT)
-        await expect (await contractUser.refund()).to.changeEtherBalance(signerUser, totalAmountFromAccount)
+        await expect (await contractUser.refund()).to.changeEtherBalances([signerUser, contractUser], [totalAmountFromAccount, -totalAmountFromAccount])
     })
 })
