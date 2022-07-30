@@ -3,72 +3,73 @@ const { ethers } = require('hardhat')
 
 describe('Refunder', function () {
 
-    let contract, contractFactory, signerUser, signerOwner
+    let refunder, refunderFactory, user, owner
     const amount = ethers.utils.parseEther('1').toBigInt()
 
     before(async function () {
-        [signerUser, signerOwner] = await ethers.getSigners()
-        contractFactory = await ethers.getContractFactory('Refunder', signerOwner) // explicitly select a signer to deploy the contract
+        [user, owner] = await ethers.getSigners()
+        refunderFactory = await ethers.getContractFactory('Refunder', owner) // explicitly select a signer to deploy the contract
     })
 
     beforeEach(async function () {
-        contract = await contractFactory.deploy()
-        await contract.deployed()
+        refunder = await refunderFactory.deploy()
+        await refunder.deployed()
     })
 
     it('Increases contract balance and payments counter after a payment', async function () {
 
-        const paymentsCount = await contract.paymentsCount()
-        await expect(await signerUser.sendTransaction({ to: contract.address, value: amount })).to.changeEtherBalances([contract, signerUser], [amount, -amount])
-        expect(await contract.paymentsCount()).to.equal(paymentsCount + 1)
+        const paymentsCount = await refunder.paymentsCount()
+        const transaction = await user.sendTransaction({ to: refunder.address, value: amount })
+        await expect(transaction).to.changeEtherBalances([refunder, user], [amount, -amount])
+        expect(await refunder.paymentsCount()).to.equal(paymentsCount + 1)
     })
 
     it('Emits an event after receiving a payment', async function () {
 
-        await expect(await signerUser.sendTransaction({ to: contract.address, value: amount })).to.emit(contract, 'PaymentReceived').withArgs(signerUser.address, amount)
+        await expect(await user.sendTransaction({ to: refunder.address, value: amount })).to.emit(refunder, 'PaymentReceived').withArgs(user.address, amount)
     })
 
     it('Increases account balance and refunds counter after a refund', async function () {
 
-        const refundsCountBeforeRefund = await contract.refundsCount()
-        const contractUser = contract.connect(signerUser) // new contract reference which allows signerUser to modify the state
+        const refundsCountBeforeRefund = await refunder.refundsCount()
+        const refunderUser = refunder.connect(user) // new contract reference which allows signerUser to modify the state
 
-        await signerUser.sendTransaction({ to: contract.address, value: amount })
-        await expect(await contractUser.refund()).to.changeEtherBalances([signerUser, contractUser], [amount, -amount])
+        await user.sendTransaction({ to: refunder.address, value: amount })
+        await expect(await refunderUser.refund()).to.changeEtherBalances([refunderUser, user], [-amount, amount])
 
-        const refundsCountAfterRefund = await contract.refundsCount()
+        const refundsCountAfterRefund = await refunder.refundsCount()
         expect(refundsCountAfterRefund).to.equal(refundsCountBeforeRefund + 1)
     })
 
     it('Emits an event after issuing a refund', async function () {
 
-        await signerOwner.sendTransaction({ to: contract.address, value: amount })
-        await expect(await contract.refund()).to.emit(contract, 'AccountRefunded').withArgs(signerOwner.address, amount)
+        await owner.sendTransaction({ to: refunder.address, value: amount })
+        await expect(await refunder.refund()).to.emit(refunder, 'AccountRefunded').withArgs(owner.address, amount)
     })
 
     it('Reverts if an address with 0 balance initiates a refund', async function () {
 
         // await expect(contractSignerUser.refund()).to.be.reverted
-        await expect(contract.refund()).to.be.revertedWith('Account balance in contract is 0')
+        await expect(refunder.refund()).to.be.revertedWith('Account balance in contract is 0')
     })
 
     it('Refunds multiple transactions from the same account as 1 transaction with the total amount', async function () {
 
         const PAYMENTS_COUNT = 3
         let totalAmountTransferred = 0
-        const contractUser = contract.connect(signerUser) // new contract reference which allows signerUser to modify the state
+        const refunderUser = refunder.connect(user) // new contract reference which allows signerUser to modify the state
 
         for (let i = 1; i <= PAYMENTS_COUNT; i++) {
             totalAmountTransferred += i
-            await signerUser.sendTransaction({ to: contract.address, value: ethers.utils.parseEther(String(i)) })
+            await user.sendTransaction({ to: refunder.address, value: ethers.utils.parseEther(String(i)) })
         }
 
-        const totalAmountFromAccount = (await contract.balances(signerUser.address)).toBigInt()
-        const contractBalance = (await ethers.provider.getBalance(contract.address)).toBigInt()
+        const totalAmountFromAccount = (await refunder.balances(user.address)).toBigInt()
+        const contractBalance = (await ethers.provider.getBalance(refunder.address)).toBigInt()
 
         expect(totalAmountTransferred).to.equal(Number(ethers.utils.formatEther(totalAmountFromAccount)))
         expect(contractBalance).to.equal(totalAmountFromAccount)
-        expect(await contract.paymentsCount()).to.equal(PAYMENTS_COUNT)
-        await expect (await contractUser.refund()).to.changeEtherBalances([signerUser, contractUser], [totalAmountFromAccount, -totalAmountFromAccount])
+        expect(await refunder.paymentsCount()).to.equal(PAYMENTS_COUNT)
+        await expect (await refunderUser.refund()).to.changeEtherBalances([refunderUser, user], [-totalAmountFromAccount, totalAmountFromAccount])
     })
 })
