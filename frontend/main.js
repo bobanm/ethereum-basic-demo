@@ -46,9 +46,9 @@ const app = {
             else {
                 provider = new ethers.providers.getDefaultProvider(DEFAULT_NETWORK)
                 this.isReadOnly = true
-                this.errorMessage = 'MetaMask not detected. The app is running in read-only mode. Please install MetaMask and refresh the page.'
+                this.errorMessage = 'Web3 wallet not detected. The app is running in read-only mode. Please install a wallet and refresh the page.'
             }
-    
+
             const providerNetwork = await provider.getNetwork()
             this.networkName = providerNetwork.name
             this.networkId = providerNetwork.chainId
@@ -64,14 +64,14 @@ const app = {
             }
 
             this.contractAddress = deploymentConfig.get(this.networkId).address
-            
+
             if (this.isReadOnly) {
                 contract = new ethers.Contract(this.contractAddress, CONTRACT_ABI, provider)
             }
             else {
                 await this.initAccount()
             }
-            
+
             try {
                 [
                     this.blockNumber,

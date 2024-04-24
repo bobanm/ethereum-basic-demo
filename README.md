@@ -11,17 +11,14 @@ can focus on what matters: How to build a simple, lean and efficient dapp.
 
 The contract is deployed on L1 testnets:
 
-- Ropsten
-- Rinkeby
-- Goerli
-- Kovan
+- Sepolia
 
 And also on L2 testnets:
 
-- Optimism Kovan
-- Arbitrum Rinkeby
+- Optimism Sepolia
+- Arbitrum Sepolia
 
-Head to https://boban.ninja/refunder/, point your MetaMask to any of those networks, and make some
+Head to https://boban.ninja/refunder/, point your wallet to any of those networks, and make some
 transfers and refunds.
 
 
@@ -106,7 +103,7 @@ The frontend that is in the `/frontend` folder works out of the box. For simplic
 to be one big Vue component, instead of slicing it into multiple single file components. As a result,
 you don't need to run tools like webpack build. Just access the files directly and you're good to go.
 
-To interact with smart contract, you will need MetaMask extension and a local web server. MetaMask
+To interact with smart contract, you will need a Web3 wallet and a local web server. Your Web3 wallet [Metamask, Brave]
 will not inject `window.ethereum` object if you open HTML file using file protocol. An easy way to
 open it using HTTP protocol is to serve it using a local web server. Installing and running a local
 web server is way more simple than it sounds. Since here we like lean and fast apps, the server of
@@ -214,7 +211,7 @@ pnpm hardhat test ./test/refunder.test.js
 If you want to run tests on an external blockchain, add `--network` argument:
 
 ```
-pnpm hardhat test --network ropsten
+pnpm hardhat test --network sepolia
 ```
 
 

@@ -37,16 +37,16 @@ module.exports = {
     solidity: "0.8.13",
 
     networks: {
-        goerli: {
-            url: `https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
+        sepolia: {
+            url: `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
             accounts: PRIVATE_KEYS,
         },
-        'optimism-goerli': {
-            url: 'https://goerli.optimism.io',
+        'optimism-sepolia': {
+            url: 'https://sepolia.optimism.io',
             accounts: PRIVATE_KEYS,
         },
-        'arbitrum-goerli': {
-            url: 'https://goerli-rollup.arbitrum.io/rpc/',
+        'arbitrum-sepolia': {
+            url: 'https://sepolia-rollup.arbitrum.io/rpc/',
             accounts: PRIVATE_KEYS,
         },
     }

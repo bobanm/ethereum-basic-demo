@@ -8,12 +8,12 @@ const CONTRACT_ABI = [
 ]
 
 const deploymentConfig = new Map([
-    [5,      { address: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', blockNumber: 6987150,  networkName: 'goerli' }],
-    [420,    { address: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', blockNumber: 1374064,  networkName: 'optimism-goerli' }],
-    [421613, { address: '0x177dd8098dD548f8206067AFFE101D6C8288B19D', blockNumber: 392644,   networkName: 'arbitrum-goerli' }],
-    [31337,  { address: '0x5FbDB2315678afecb367f032d93F642f64180aa3', blockNumber: 0,        networkName: 'hardhat' }],
+    [11155111, { address: '0xa06E8dEA72E7530718e9d66F32404Ae372841156', blockNumber: 5766007,  networkName: 'sepolia' }],
+    [11155420, { address: '0x1f101039EB1775dfb8B5014c21a6D67fEFF9d681', blockNumber: 11072631, networkName: 'optimism-sepolia' }],
+    [421614,   { address: '0x1f101039EB1775dfb8B5014c21a6D67fEFF9d681', blockNumber: 36965333, networkName: 'arbitrum-sepolia' }],
+    [31337,    { address: '0x5FbDB2315678afecb367f032d93F642f64180aa3', blockNumber: 0,        networkName: 'hardhat' }],
 ])
 
-const DEFAULT_NETWORK = 'ropsten'
+const DEFAULT_NETWORK = 'sepolia'
 
 export { deploymentConfig, CONTRACT_ABI, DEFAULT_NETWORK }

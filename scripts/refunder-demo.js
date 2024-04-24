@@ -1,13 +1,13 @@
 /*
 
     This CLI demo does not deploy a contract, but assumes there is one already deployed.
-    I have already deployed it on Ropsten, and that is the default value for CONTRACT_ADDRESS
-    below. Of course, you can deploy your own version to Ropsten or any other blockchain, and
+    I have already deployed it on Sepolia, and that is the default value for CONTRACT_ADDRESS
+    below. Of course, you can deploy your own version to Sepolia or any other blockchain, and
     replace value of CONTRACT_ADDRESS by your own.
 
-    To run this demo on Ropsten:
+    To run this demo on Sepolia:
 
-    pnpm hardhat run ./scripts/refunder-demo.js --network ropsten
+    pnpm hardhat run ./scripts/refunder-demo.js --network sepolia
 
     If you want to use it with Hardhat's in-memory blockchain, you will first need to start a local
     blockchain:
@@ -31,13 +31,13 @@
 const { ethers } = require('hardhat')
 
 // const CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3' // this is where your first contract on local Hardhat blockchain will be deployed to
-const CONTRACT_ADDRESS = '0xacCDe34BC1391aa8D3FEF3Bfaa568dFd9D1DA791' // this is the already deployed contract on Ropsten
+const CONTRACT_ADDRESS = '0xa06E8dEA72E7530718e9d66F32404Ae372841156' // this is the already deployed contract on Sepolia
 
 const amount = 0.01
 
 async function main () {
 
-    const signer = ethers.provider.getSigner()
+    const signer = await ethers.getSigner()
     const contract = await ethers.getContractAt('Refunder', CONTRACT_ADDRESS, signer)
 
     console.log('\nINITIAL STATE')
